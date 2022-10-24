@@ -19,7 +19,7 @@ for img_name in tqdm(os.listdir(PATH_SRC)):
     path = os.path.join(PATH_SRC, img_name)
     img = Image.open(path)
     data_set.append(np.array(img))
-    if img_name.split(".")[0] == "12000":
+    if img_name.split(".")[0] == "22000":
         break
 
 print("Amount of data: ", len(data_set))
@@ -33,28 +33,21 @@ data_set = tf.data.Dataset.from_tensor_slices(data_set).shuffle(data_set.shape[0
 def make_generator_model():
     model = tf.keras.Sequential()
     model.add(layers.Dense(4 * 4 * 1024, use_bias=False, input_shape=(100,)))
-    model.add(layers.BatchNormalization())
-    model.add(layers.LeakyReLU())
-
     model.add(layers.Reshape((4, 4, 1024)))
-    assert model.output_shape == (None, 4, 4, 1024)
 
-    model.add(layers.Conv2DTranspose(512, (5, 5), strides=(2, 2), padding='same', use_bias=False))
-    assert model.output_shape == (None, 8, 8, 512)
+    model.add(layers.Conv2DTranspose(512, 5, strides=2, padding='same', use_bias=False))
     model.add(layers.BatchNormalization())
-    model.add(layers.LeakyReLU())
+    model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(256, (5, 5), strides=(2, 2), padding='same', use_bias=False))
-    assert model.output_shape == (None, 16, 16, 256)
+    model.add(layers.Conv2DTranspose(256, 5, strides=2, padding='same', use_bias=False))
     model.add(layers.BatchNormalization())
-    model.add(layers.LeakyReLU())
+    model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(128, (5, 5), strides=(2, 2), padding='same', use_bias=False))
-    assert model.output_shape == (None, 32, 32, 128)
+    model.add(layers.Conv2DTranspose(128, 5, strides=2, padding='same', use_bias=False))
     model.add(layers.BatchNormalization())
-    model.add(layers.LeakyReLU())
+    model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(3, (5, 5), strides=(2, 2), padding='same', use_bias=False, activation='tanh'))
+    model.add(layers.Conv2DTranspose(3, 5, strides=2, padding='same', use_bias=False, activation='tanh'))
     assert model.output_shape == (None, 64, 64, 3)
 
     return model
@@ -68,23 +61,19 @@ def make_discriminator_model():
     model = tf.keras.Sequential()
     model.add(layers.Conv2D(filters, (4, 4), strides=(2, 2), padding='same',
                             input_shape=[64, 64, 3]))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
     model.add(layers.Conv2D(filters * 2, (4, 4), strides=(2, 2), padding='same'))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
     model.add(layers.Conv2D(filters * 4, (4, 4), strides=(2, 2), padding='same'))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
     model.add(layers.Conv2D(filters * 8, (4, 4), strides=(2, 2), padding='same'))
-    model.add(layers.LeakyReLU())
-    model.add(layers.Dropout(0.3))
+    model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
     model.add(layers.Flatten())
@@ -107,17 +96,17 @@ def generator_loss(fake_output):
     return cross_entropy(tf.ones_like(fake_output), fake_output)
 
 
-generator_optimizer = tf.keras.optimizers.Adam(1e-4)
-discriminator_optimizer = tf.keras.optimizers.Adam(1e-4)
+generator_optimizer = tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5)
+discriminator_optimizer = tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5)
 
-checkpoint_dir = 'checkpoints_1'
+checkpoint_dir = 'checkpoints_3'
 checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
 checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  discriminator_optimizer=discriminator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
 
-EPOCHS = 300
+EPOCHS = 200
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -144,13 +133,13 @@ def generate_and_save_images(model, epoch, test_input):
         plt.axis('off')
         plt.grid(False)
 
-    plt.savefig('./gan_1_images/image_at_epoch_{:04d}_big_data_2.png'.format(epoch))
+    plt.savefig('./gan_3_images/image_at_epoch_{:04d}.png'.format(epoch))
     # plt.show()
 
 
 @tf.function
 def train_step(images):
-    noise = tf.random.normal([BATCH_SIZE, noise_dim])
+    noise = tf.random.normal([BATCH_SIZE, noise_dim], stddev=0.2)
 
     with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
         generated_images = generator(noise, training=True)
@@ -184,7 +173,7 @@ def train(dataset, epochs):
                                  epoch + 1,
                                  seed)
 
-        if (epoch + 1) % 10 == 0:
+        if (epoch + 1) % 5 == 0:
             checkpoint.save(file_prefix=checkpoint_prefix)
 
         print('Time for epoch {} is {} sec'.format(epoch + 1, time.time() - start))
