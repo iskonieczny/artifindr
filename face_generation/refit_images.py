@@ -4,7 +4,7 @@ from tqdm import tqdm
 import os
 import cv2
 
-PATH_SRC = "./dataset"
+PATH_SRC = "./dataset/person"
 PATH_OUT = "./dataset_refit"
 
 
