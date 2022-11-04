@@ -4,19 +4,23 @@ import { useEffect, useState } from 'react';
 import { kratos } from './kratos/kratos';
 import { useRouter } from './hooks/useRouter';
 import { config } from './kratos/config';
+import { useSelector, useDispatch } from 'react-redux'
+import { setFlow } from "./ducks/actions"
+import { useLogout } from './hooks/useLogout';
 
 function App() {
 
   const router = useRouter()
-  const [session, setSession] = useState()
-  const [hasSession, setHasSession] = useState(false)
+  const logout = useLogout()
+  const flow = useSelector((state) => state.flow)
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     kratos
       .toSession()
       .then(({ data }) => {
-        setSession(data)
-        setHasSession(true)
+        dispatch(setFlow(data))
       })
       .catch((err) => {
         switch (err.response?.status) {
@@ -39,28 +43,31 @@ function App() {
   }, [])
 
   const getName = () => {
-    const identity=session.identity.traits
-    return identity.first_name + " " + identity.last_name
+    const traits=flow.identity.traits
+    return traits.first_name + " " + traits.last_name
   }
+  const isVerified = !flow 
+  || !flow.authentication_methods
+  || flow.authentication_methods[0].method === "oidc"
+  || !flow.identity
+  || flow.identity.verifiable_addresses[0].verified
 
   return (
-    <div>
+    <div className='bg-light'>
       <div>
-        {session?.identity && `Witaj, ${getName()}`}
+        {flow?.identity && `Hello, ${getName()}`}
       </div>
+      {isVerified || <div>Please, verify your address</div>}
       <nav>
         <ul>
           <li>
-            <Link to="/auth/login">login</Link>xd
-            <Link to="/auth/registration">register</Link>xd
-            <Link to="/auth/login">Home</Link>xd
+            <Link to="/auth/login">login</Link>
+            <Link to="/auth/register">register</Link>
+            <Link to="/auth/verify">Verify</Link>
           </li>
         </ul>
       </nav>
-      xddxd
-      {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-      
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }

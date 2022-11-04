@@ -1,138 +1,136 @@
-import { useEffect, useState } from 'react';
-import { kratos } from '../kratos/kratos';
-import { config } from '../kratos/config';
-import { useRouter } from '../hooks/useRouter';
+import { useRouter } from "../hooks/useRouter"
+import { useEffect, useState } from "react"
+import { getFormFieldTitle, getFormPlaceholder, filterFields } from "../kratos/translations"
+import { handleFlowError } from "../kratos/errors"
+import { useSelector, useDispatch } from 'react-redux'
+import { setFlow } from "../ducks/actions"
+import { kratos } from "../kratos/kratos"
+import { useVerify } from "../hooks/useVerify"
 
-export default function LoginPage() {
-  const [flowResponse, setFlowResponse] = useState(null);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+const Login = () => {
   const router = useRouter()
-  const {
-    return_to: returnTo,
-    flow: flowId,
-    // Refresh means we want to refresh the session. This is needed, for example, when we want to update the password
-    // of a user.
-    refresh,
-    // AAL = Authorization Assurance Level. This implies that we want to upgrade the AAL, meaning that we want
-    // to perform two-factor authentication/verification.
-    aal,
-  } = router.query
+  const flow = useSelector((state) => state.flow)
+  const dispatch = useDispatch()
+  const sendVerify = useVerify()
+  const [values, setValues] = useState({})
+
+  const initializeValues = (nodes = []) => {
+    console.log(nodes)
+    nodes.forEach((node) => {
+        if (
+          node.attributes.type === "button" ||
+          node.attributes.name === "provider"
+        ) {
+          return
+        }
+        values[node.attributes.name] = node.attributes.value
+      }
+    )
+    setValues( values )
+  }
+
+  const { flow: flowId, return_to: returnTo } = router.query
+  const resetFlow = (value) => {dispatch(setFlow(value))}
 
   useEffect(() => {
-
-    const initRedirect = () => {
-      window.location.href = config.routes.login.selfServiceUrl;
-    };
-
-    console.log('[LOGIN] flowId: ', flowId);
-
-    if (!flowId) {
-      initRedirect();
-    }
-
     if (flowId) {
       kratos
-        .getSelfServiceLoginFlow(document.cookie, flowId).then((flow) => {
-          console.log('[LOGIN] flow: ', flow);
-
-          if ([403, 404, 410].includes(flow.status)) {
-            console.log('[LOGIN] status = 403 | 404 | 410: ', flow.status);
-            //initRedirect();
-          }
-
-          if (flow.status !== 200) {
-            console.log('[LOGIN] status !== 200: ', flow);
-            //initRedirect();
-          }
-
-          setFlowResponse(flow.data);
-          console.log('[LOGIN] flow success: ', flow);
+        .getSelfServiceLoginFlow(String(flowId))
+        .then(({ data }) => {
+          dispatch(setFlow(data))
+          initializeValues(data.ui.nodes)
         })
-        .catch(err => {
-          console.error('[LOGIN] err: ', err);
-          //initRedirect();
-        });
+        .catch(handleFlowError(router, "login", resetFlow))
+      return
     }
-  }, []);
+    kratos
+      .initializeSelfServiceLoginFlowForBrowsers(
+        returnTo ? String(returnTo) : undefined,
+      )
+      .then(({ data }) => {
+        dispatch(setFlow(data))
+        initializeValues(data.ui.nodes)
+      })
+      .catch(e => console.log(e))
+  }, [])
 
-  return (
-    <div>
-      <h1>Login</h1>
+  const onSubmit = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    console.log(values)
+    kratos
+      .submitSelfServiceLoginFlow(String(flow?.id), values)
+      .then(({ data }) => {
+        console.log("This is the user session: ", data, data.identity)
+        return router.navigate(flow?.return_to || "/")
+      })
+      .catch(handleFlowError(router, "login", resetFlow))
+      .catch((err) => {
+        if (err.response?.status === 400) {
+          console.log(err.response?.data)
+          dispatch(setFlow(err.response?.data))
+          return
+        }
 
-      {flowResponse?.ui?.messages && (
-        <pre style={{ color: 'red' }}>{JSON.stringify(flowResponse.ui.messages, null, 2)}</pre>
-      )}
+        return Promise.reject(err)
+      })
+    }
 
-      <pre>{JSON.stringify({ action: flowResponse?.ui?.action }, null, 2)}</pre>
+  const isNotActive = flow?.ui?.messages?.[0].id === 4000010
 
-      <pre>
-        {JSON.stringify(
-          {
-            email,
-            password,
-            // @ts-ignore
-            csrf_token:
-              flowResponse?.ui?.nodes?.find(n => n.attributes.name === 'csrf_token')?.attributes?.value || null,
-          },
-          null,
-          2
-        )}
-      </pre>
-
-      {flowResponse && flowResponse?.ui?.action && (
-        <form
-          id='login'
-          method='post'
-          action={flowResponse.ui.action}
-          encType='application/x-www-form-urlencoded'
-          style={{ display: 'grid', gap: '1rem', maxWidth: 400 }}
+  return flow?.ui?.nodes && (
+    <>
+      {flow.ui.messages?.map(el => <>{el.text}</>)}
+      {
+        isNotActive && 
+        <button onClick={() => sendVerify(values["identifier"])}>
+          Resend activation link
+        </button>
+      }
+      <form
+        action={flow.ui.action}
+        method={flow.ui.method}
+        onSubmit={onSubmit}
+      >
+        {filterFields(flow.ui.nodes).map((field, index) => <div
+          className={`form-group ${field.attributes.type !== "hidden" ? "visible" : "d-none"}`}
         >
+          <label htmlFor={field.name} className="form-label">
+            {getFormFieldTitle(field.attributes)}
+          </label>
           <input
-            id='csrf_token'
-            name='csrf_token'
-            type='hidden'
-            required
-            readOnly
-            // @ts-ignore
-            defaultValue={flowResponse.ui.nodes.find(n => n.attributes.name === 'csrf_token')?.attributes.value}
+            className="form-control"
+            defaultValue={field.attributes.value}
+            type={field.attributes.type}
+            value={values[field.attributes.name] || field.attributes.value || ''}
+            onChange={e => setValues({...values, [field.attributes.name]: e.target.value})}
+            disabled={field.attributes.disabled}
+            id={field.attributes.name}
+            name={field.attributes.name}
+            pattern={field.attributes.pattern}
+            placeholder={getFormPlaceholder(field.attributes)}
+            required={field.attributes.required}
           />
-
-          <label htmlFor='traits.email'>
-            <input
-              type='email'
-              id='traits.email'
-              name='traits.email'
-              placeholder='Email'
-              value={email}
-              onChange={({ target }) => {
-                setEmail(target.value);
-              }}
-            />
-          </label>
-
-          <label htmlFor='password'>
-            <input
-              type='password'
-              id='password'
-              name='password'
-              placeholder='Password'
-              value={password}
-              onChange={({ target }) => {
-                setPassword(target.value);
-              }}
-            />
-          </label>
-          <button form='registration' formAction={flowResponse.ui.action} formMethod='post' type='submit'>
-            LOGIN
-          </button>
-          <button type="submit" name="provider" value="google">
-              Login with github
-          </button>
-        </form>
-      )}
-    </div>
-  );
+          <>
+          {field.messages.map(({ text, id }, k) => (
+            <span key={`${id}-${k}`} data-testid={`ui/message/${id}`}>
+              {text}
+            </span>
+          ))}
+        </>
+        </div>)}
+        <button type="submit">Submit</button>
+      </form>
+      <form
+        action={flow.ui.action}
+        method={flow.ui.method}
+      >
+        <button type="submit" name="provider" value="google">
+          Login with google
+        </button>
+          </form>
+    </>
+  )
 }
+
+export default Login

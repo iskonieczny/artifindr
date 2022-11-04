@@ -4,7 +4,9 @@ import {
 } from "@ory/client"
 import { useRouter } from "../hooks/useRouter"
 import { useEffect, useState } from "react"
-import kratos from "../kratos/kratos"
+import {kratos} from "../kratos/kratos"
+import { config } from "../kratos/config"
+import { getFormFieldTitle, getFormPlaceholder, filterFields } from "../kratos/translations"
 
 const Verify = () => {
   const [flow, setFlow] = useState()
@@ -13,11 +15,12 @@ const Verify = () => {
   const router = useRouter()
   const { flow: flowId, return_to: returnTo } = router.query
 
+  const initRedirect = () => {
+    window.location.href = config.routes.verify.selfServiceUrl;
+  };
+
   useEffect(() => {
     // If the router is not ready yet, or we already have a flow, do nothing.
-    if (!router.isReady || flow) {
-      return
-    }
 
     // If ?flow=.. was in the URL, we fetch it
     if (flowId) {
@@ -32,7 +35,7 @@ const Verify = () => {
             // Status code 410 means the request has expired - so let's load a fresh flow!
             case 403:
               // Status code 403 implies some other issue (e.g. CSRF) - let's reload!
-              return router.push("/verify")
+              return router.push("/auth/verify")
           }
 
           throw err
@@ -41,31 +44,16 @@ const Verify = () => {
     }
 
     // Otherwise we initialize it
-    kratos
-      .initializeSelfServiceVerificationFlowForBrowsers(
-        returnTo ? String(returnTo) : undefined,
-      )
-      .then(({ data }) => {
-        setFlow(data)
-      })
-      .catch((err) => {
-        switch (err.response?.status) {
-          case 400:
-            // Status code 400 implies the user is already signed in
-            return router.push("/")
-        }
-
-        throw err
-      })
-  }, [flowId, router, router.isReady, returnTo, flow])
+    initRedirect()
+  }, [])
 
   const onSubmit = (values) =>
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
-      .push(`/verify?flow=${flow?.id}`, undefined, { shallow: true })
+      .push(`auth/verify?flow=${flow?.id}`, undefined, { shallow: true })
       .then(() =>
-        ory
+        kratos
           .submitSelfServiceVerificationFlow(
             String(flow?.id),
             values,
@@ -89,7 +77,7 @@ const Verify = () => {
 
     console.log(flow)
 
-  return (
+  return flow?.ui?.nodes && (
     <>
       <form
         action={flow.ui.action}

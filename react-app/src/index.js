@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './styles/style.scss';
 import App from './App';
 import {
   createBrowserRouter,
@@ -8,9 +8,11 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import LoginPage from './auth/LoginPage';
+import Login from './auth/Login';
 import Register from './auth/Register';
-//import Verify from './auth/Verify';
+import Verify from './auth/Verify';
+import { Provider } from 'react-redux'
+import { store } from './ducks/store';
 
 const router = createBrowserRouter([
   {
@@ -19,22 +21,24 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth/login",
-    element: <LoginPage />,
+    element: <Login />,
   },
   {
     path: "/auth/register",
     element: <Register />,
   },
-  // {
-  //   path: "/auth/verify",
-  //   element: <Verify />,
-  // },
+  {
+    path: "/auth/verify",
+    element: <Verify />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 

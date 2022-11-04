@@ -1,4 +1,4 @@
-const publicUrl = 'http://127.0.0.1:4433/';
+const publicUrl = 'http://127.0.0.1:4433';
 const adminUrl = 'http://127.0.0.1:4434/';
 const browserUrl = 'http://127.0.0.1:4433/';
 
@@ -20,7 +20,7 @@ export const config = {
     },
     verify: {
       path: '/auth/verify',
-      selfServiceUrl: `${publicUrl}/self-service/verify/browser`,
+      selfServiceUrl: `${publicUrl}/self-service/verification/browser`,
     },
     recovery: {
       path: '/auth/recovery',

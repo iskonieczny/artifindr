@@ -20,6 +20,7 @@ serve:
       allowed_headers:
         - Authorization
         - Cookie
+        - Content-Type
       exposed_headers:
         - Content-Type
         - Set-Cookie
@@ -66,7 +67,7 @@ selfservice:
   # You can see how this would change for a production environment or other solutions.
   flows:
     error:
-      ui_url: http://127.0.0.1:3000/error
+      ui_url: http://127.0.0.1:3000/auth/error
     registration:
       after:
         oidc:
@@ -74,16 +75,16 @@ selfservice:
             - hook: session
 
     settings:
-      ui_url: http://127.0.0.1:3000/settings
+      ui_url: http://127.0.0.1:3000/auth/settings
       privileged_session_max_age: 15m
 
     recovery:
       enabled: true
-      ui_url: http://127.0.0.1:3000/recovery
+      ui_url: http://127.0.0.1:3000/auth/recovery
 
     verification:
       enabled: true
-      ui_url: http://127.0.0.1:3000/verify
+      ui_url: http://127.0.0.1:3000/auth/verify
       after:
         default_browser_return_url: http://127.0.0.1:3000/
 
@@ -139,5 +140,8 @@ hashers:
 
 courier:
   smtp:
-    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
-    from_address: no-reply@example.com
+    connection_uri: smtps://artifindr@gmail.com:oplpqergzsjqagcy@smtp.gmail.com:465/
+    #connection_uri: smtps://postmaster@sandboxa82ff0e6e62b44bd9a01525482bb3b30.mailgun.org:0de9f798070c8d586027717af85be12e-8845d1b1-8d400f5c@smtp.mailgun.org
+    local_name: kratos
+    #from_address: "artifindr@gmail.com"
+    #from_name: "Artifindr"

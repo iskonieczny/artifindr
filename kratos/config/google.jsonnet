@@ -1,11 +1,11 @@
 local claims = {
-  email_verified: true
+  email_verified: false
 } + std.extVar('claims');
 
 {
   identity: {
     traits: {
-      email: claims.email,
+      [if "email" in claims && claims.email_verified then "secondaryEmails" else null]: [claims.email],
 			first_name: claims.given_name,
 			last_name: claims.family_name,
     },

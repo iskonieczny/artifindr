@@ -1,4 +1,4 @@
-import { Configuration, V0alpha2Api } from "@ory/client"
+import { Configuration, V0alpha2Api } from "@ory/kratos-client"
 import { config } from './config';
 
 const kratosConfiguration = new Configuration({
