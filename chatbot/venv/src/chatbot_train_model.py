@@ -33,7 +33,7 @@ def bag_of_words(text, vocab):
 def pred_class(text, vocab, labels):
     bow = bag_of_words(text, vocab)
     result = model.predict(np.array([bow]))[0]
-    thresh = 0.65
+    thresh = 0.5
     y_pred = [[indx, res] for indx, res in enumerate(result) if res > thresh]
     y_pred.sort(key=lambda x: x[1], reverse=True)
     return_list = []
@@ -113,26 +113,17 @@ model.add(Dropout(0.5))
 model.add(Dense(64, activation="relu"))
 model.add(Dropout(0.5))
 model.add(Dense(len(train_Y[0]), activation="softmax"))
-adam = tf.keras.optimizers.Adam(learning_rate=0.002, decay=1e-6)
+adam = tf.keras.optimizers.Adam(learning_rate=0.01, decay=1e-6)
 model.compile(loss='categorical_crossentropy',
               optimizer=adam,
               metrics=["accuracy"])
 
 # print(model.summary())
 
-model.fit(x=train_X, y=train_Y, epochs=300, verbose=1)
+model.fit(x=train_X, y=train_Y, epochs=3000, verbose=1)
 
 model.save('first_model')
 
-
-print("Type 0 to end the conversation")
-while True:
-    message = input("")
-    if message == "0":
-        break
-    intents = pred_class(message, words, classes)
-    result = get_response(intents, data)
-    print(result)
 
 
 # generowanie tekstu do tego modelu

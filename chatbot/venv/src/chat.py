@@ -76,7 +76,7 @@ def get_response(intents_list, intents_json):
     return result
 
 
-data_file = open("intents.json").read()
+data_file = open("basic_character.json").read()
 data = json.loads(data_file)
 
 
