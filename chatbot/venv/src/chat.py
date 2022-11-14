@@ -41,9 +41,17 @@ def pred_class(text, vocab, labels):
     return return_list
 
 
+def ask_a_question():
+    result = random.randint(0, 100)
+    if result > 85:
+        return True
+    return False
+
+
 def get_response(intents_list, intents_json):
     global last_tag
     list_of_intents = intents_json["intents"]
+    question = ask_a_question()
     result = ""
     if len(intents_list) == 0:
         tag = "noanswer"
@@ -57,26 +65,31 @@ def get_response(intents_list, intents_json):
             for i in list_of_intents:
                 if i["tag"] == last_tag:
                     result = random.choice(i["responses"])
-                    return result
+                    break
         if tag == last_tag:
             for i in list_of_intents:
                 if i["tag"] == "repeating":
                     result = random.choice(i["responses"])
                     break
         if tag not in ["noanswer", "exclaim", "greeting", "goodbye", "thanks", "haha", "niceToMeetYou", "appreciate",
-                       "no", "yes", "opinion", "greetreply", "suggest"]:
+                       "no", "yes", "opinion", "greetreply", "suggest", "followup"]:
             last_tag = tag
         for i in list_of_intents:
             if i["tag"] == tag:
                 if result:
-                    result += random.choice(i["responses"])
+                    result += " " + random.choice(i["responses"])
                 else:
                     result = random.choice(i["responses"])
                 break
+    if question:
+        for i in list_of_intents:
+            if i["tag"] == "question":
+                result += " |" + random.choice(i["responses"])
     return result
 
 
-data_file = open("basic_character.json").read()
+# data_file = open("./characters/not_formal.json").read()
+data_file = open("./characters/formal.json").read()
 data = json.loads(data_file)
 
 
@@ -105,6 +118,6 @@ while True:
     message = input("")
     if message == "0":
         break
-    intents = pred_class(message, words, classes)
+    intents = pred_class(message.lower(), words, classes)
     result = get_response(intents, data)
     print(result)

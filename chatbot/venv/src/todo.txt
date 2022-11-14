@@ -1,4 +1,4 @@
-add reapiting category close
+add questions
 hobbies, age, name, nationality generated with chatbot (should be individual)
 add conversetion score 
 add double msgs to some categories

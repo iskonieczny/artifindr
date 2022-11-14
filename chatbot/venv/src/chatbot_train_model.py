@@ -113,14 +113,14 @@ model.add(Dropout(0.5))
 model.add(Dense(64, activation="relu"))
 model.add(Dropout(0.5))
 model.add(Dense(len(train_Y[0]), activation="softmax"))
-adam = tf.keras.optimizers.Adam(learning_rate=0.01, decay=1e-6)
+adam = tf.keras.optimizers.Adam(learning_rate=0.008, decay=1e-6)
 model.compile(loss='categorical_crossentropy',
               optimizer=adam,
               metrics=["accuracy"])
 
-# print(model.summary())
+print(model.summary())
 
-model.fit(x=train_X, y=train_Y, epochs=3000, verbose=1)
+model.fit(x=train_X, y=train_Y, epochs=400, verbose=1)
 
 model.save('first_model')
 
