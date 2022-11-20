@@ -19,7 +19,7 @@ for img_name in tqdm(os.listdir(PATH_SRC)):
     path = os.path.join(PATH_SRC, img_name)
     img = Image.open(path)
     data_set.append(np.array(img))
-    if img_name.split(".")[0] == "12000":
+    if img_name.split(".")[0] == "00127":
         break
 
 print("Amount of data: ", len(data_set))
@@ -106,7 +106,7 @@ checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
 
-EPOCHS = 200
+EPOCHS = 1
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -137,7 +137,7 @@ def generate_and_save_images(model, epoch, test_input):
         plt.axis('off')
         plt.grid(False)
 
-    plt.savefig('./gan_grayscale_images/image_at_epoch_{:04d}.png'.format(epoch))
+    plt.savefig('./gan_grayscale_images/image_test_7_{:04d}.png'.format(epoch))
 
 
 @tf.function
@@ -160,7 +160,7 @@ def train_step(images):
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
 
 
-ckpt_manager = tf.train.CheckpointManager(checkpoint, checkpoint_dir, max_to_keep=50)
+ckpt_manager = tf.train.CheckpointManager(checkpoint, checkpoint_dir, max_to_keep=70)
 checkpoint.restore(ckpt_manager.latest_checkpoint)
 
 
@@ -185,6 +185,8 @@ def train(dataset, epochs):
     generate_and_save_images(generator,
                              epochs,
                              seed)
+    generator.compile(generator_optimizer)
+    generator.save("model/grayscale_test.h5")
 
 
 train(data_set, EPOCHS)
