@@ -1,16 +1,17 @@
 from generator import Generator
-from flask import Flask, jsonify, request
+from flask import Flask
 
 app = Flask("GenAPI")
 
 generator = Generator()
 
 
-@app.get("/genapi")
+@app.route("/genapi", methods=['GET'])
 def get_image():
     res = generator.generate()
-
-    return jsonify({"img": res.tolist()})
+    if res is False:
+        return {"img": []}, 500
+    return {"img": res.tolist()}, 200
 
 
 app.run()
