@@ -186,7 +186,7 @@ def train(dataset, epochs):
                              epochs,
                              seed)
     generator.compile(generator_optimizer)
-    generator.save("model/grayscale_test.h5")
+    generator.save("model/model.h5")
 
 
 train(data_set, EPOCHS)

@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 
-generator = tf.keras.models.load_model("model/grayscale_test.h5")
+generator = tf.keras.models.load_model("model/model.h5", compile=False)
 INPUT_SHAPE = 100
 GEN_NUM = 1
 
