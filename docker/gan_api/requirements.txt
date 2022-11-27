@@ -1,0 +1,7 @@
+flask
+keras
+numpy
+pillow
+matplotlib
+opencv-python
+flask-cors

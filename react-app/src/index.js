@@ -13,31 +13,32 @@ import Register from './auth/Register';
 import Verify from './auth/Verify';
 import { Provider } from 'react-redux'
 import { store } from './ducks/store';
+import Navbar from './ui/Navbar';
+
+const wrapRoute = (route) => {
+  return (<div className='wrapper'><Navbar/>{route}</div>)
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: wrapRoute(<App />),
   },
   {
     path: "/auth/login",
-    element: <Login />,
+    element: wrapRoute(<Login />),
   },
   {
     path: "/auth/register",
-    element: <Register />,
-  },
-  {
-    path: "/auth/verify",
-    element: <Verify />,
-  },
+    element: wrapRoute(<Register />),
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </Provider>
   </React.StrictMode>
 );

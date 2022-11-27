@@ -7,6 +7,9 @@ import { config } from './kratos/config';
 import { useSelector, useDispatch } from 'react-redux'
 import { setFlow } from "./ducks/actions"
 import { useLogout } from './hooks/useLogout';
+import Navbar from './ui/Navbar';
+import Dashboard from './ui/Dashboard';
+import Mainpage from './ui/Mainpage';
 
 function App() {
 
@@ -42,34 +45,7 @@ function App() {
       })
   }, [])
 
-  const getName = () => {
-    const traits=flow.identity.traits
-    return traits.first_name + " " + traits.last_name
-  }
-  const isVerified = !flow 
-  || !flow.authentication_methods
-  || flow.authentication_methods[0].method === "oidc"
-  || !flow.identity
-  || flow.identity.verifiable_addresses[0].verified
-
-  return (
-    <div className='bg-light'>
-      <div>
-        {flow?.identity && `Hello, ${getName()}`}
-      </div>
-      {isVerified || <div>Please, verify your address</div>}
-      <nav>
-        <ul>
-          <li>
-            <Link to="/auth/login">login</Link>
-            <Link to="/auth/register">register</Link>
-            <Link to="/auth/verify">Verify</Link>
-          </li>
-        </ul>
-      </nav>
-      <button onClick={logout}>Logout</button>
-    </div>
-  );
+  return flow?.identity ? (<Dashboard/>) : (<Mainpage/>);
 }
 
 export default App;

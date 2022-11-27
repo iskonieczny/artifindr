@@ -79,57 +79,62 @@ const Login = () => {
   const isNotActive = flow?.ui?.messages?.[0].id === 4000010
 
   return flow?.ui?.nodes && (
-    <>
-      {flow.ui.messages?.map(el => <>{el.text}</>)}
-      {
-        isNotActive && 
-        <button onClick={() => sendVerify(values["identifier"])}>
-          Resend activation link
-        </button>
-      }
-      <form
-        action={flow.ui.action}
-        method={flow.ui.method}
-        onSubmit={onSubmit}
-      >
-        {filterFields(flow.ui.nodes).map((field, index) => <div
-          className={`form-group ${field.attributes.type !== "hidden" ? "visible" : "d-none"}`}
+    <div className="d-flex justify-content-center flex-wrap">
+      <div className="m-3 p-3 rounded-5 bg-semi-light">
+        <div className="cred-input text-red">{flow.ui.messages?.map(el => <>{el.text}</>)}</div>
+        {
+          isNotActive && 
+          <button onClick={() => sendVerify(values["identifier"])}>
+            Resend activation link
+          </button>
+        }
+        <form
+          action={flow.ui.action}
+          method={flow.ui.method}
+          onSubmit={onSubmit}
         >
-          <label htmlFor={field.name} className="form-label">
-            {getFormFieldTitle(field.attributes)}
-          </label>
-          <input
-            className="form-control"
-            defaultValue={field.attributes.value}
-            type={field.attributes.type}
-            value={values[field.attributes.name] || field.attributes.value || ''}
-            onChange={e => setValues({...values, [field.attributes.name]: e.target.value})}
-            disabled={field.attributes.disabled}
-            id={field.attributes.name}
-            name={field.attributes.name}
-            pattern={field.attributes.pattern}
-            placeholder={getFormPlaceholder(field.attributes)}
-            required={field.attributes.required}
-          />
-          <>
-          {field.messages.map(({ text, id }, k) => (
-            <span key={`${id}-${k}`} data-testid={`ui/message/${id}`}>
-              {text}
-            </span>
-          ))}
-        </>
-        </div>)}
-        <button type="submit">Submit</button>
-      </form>
+          {filterFields(flow.ui.nodes).map((field, index) => <div
+            className={`form-group ${field.attributes.type !== "hidden" ? "visible" : "d-none"}`}
+          >
+            <label htmlFor={field.name} className="form-label">
+              {getFormFieldTitle(field.attributes)}
+            </label>
+            <input
+              className="form-control cred-input align-items-center"
+              defaultValue={field.attributes.value}
+              type={field.attributes.type}
+              value={values[field.attributes.name] || field.attributes.value || ''}
+              onChange={e => setValues({...values, [field.attributes.name]: e.target.value})}
+              disabled={field.attributes.disabled}
+              id={field.attributes.name}
+              name={field.attributes.name}
+              pattern={field.attributes.pattern}
+              placeholder={getFormPlaceholder(field.attributes)}
+              required={field.attributes.required}
+            />
+            <>
+            {field.messages.map(({ text, id }, k) => (
+              <span className="cred-input text-red" key={`${id}-${k}`} data-testid={`ui/message/${id}`}>
+                {text}
+              </span>
+            ))}
+          </>
+          </div>)}
+          <button type="submit" className='mt-2 p-2 btn btn-primary rounded-5 btn-lg'>Submit</button>
+        </form>
+        
+      </div>
+      <div className="align-self-start m-3 p-3 rounded-5 bg-semi-light">
       <form
-        action={flow.ui.action}
-        method={flow.ui.method}
-      >
-        <button type="submit" name="provider" value="google">
-          Login with google
-        </button>
-          </form>
-    </>
+          action={flow.ui.action}
+          method={flow.ui.method}
+        >
+          <button type="submit" name="provider" value="google" className="p-2 btn btn-primary rounded-5 btn-lg">
+            Log in with Google
+          </button>
+            </form>
+      </div>
+    </div>
   )
 }
 

@@ -41,3 +41,8 @@ services:
     ports: 
       - "4433:4433"
       - "4434:4434"
+  gan_api:
+    container_name: gan_api
+    build: ./gan_api
+    ports:
+      - "5000:5000"
