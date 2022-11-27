@@ -22,9 +22,7 @@
                 "Welcome"
             ],
             "responses": [
-                "Hello",
-                "Good to see you again",
-                "Hi there, how can I help?"
+
             ],
             "context": [
                 ""
@@ -142,7 +140,6 @@
                 "how are you felling"
             ],
             "responses": [
-                "All good..What about you?"
             ]
         },
         {
@@ -157,7 +154,6 @@
                 "haaahaahhaah"
             ],
             "responses": [
-                "..."
             ]
         },
         {
@@ -176,7 +172,6 @@
                 "you're dumb"
             ],
             "responses": [
-                "Well that hurts :("
             ]
         },
         {

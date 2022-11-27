@@ -89,7 +89,7 @@ def get_response(intents_list, intents_json):
 
 
 # data_file = open("./characters/not_formal.json").read()
-data_file = open("./characters/formal.json").read()
+data_file = open("./characters/not_formal.json").read()
 data = json.loads(data_file)
 
 

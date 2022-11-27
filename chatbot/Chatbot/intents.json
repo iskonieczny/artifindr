@@ -22,9 +22,7 @@
                 "Welcome"
             ],
             "responses": [
-                "Good morning",
-                "Hello sir, how can I help?",
-                "It's good to see you"
+
             ],
             "context": [
                 ""
@@ -45,9 +43,9 @@
                 "Good night"
             ],
             "responses": [
-                "Goodbye",
+                "See you!",
                 "Have a nice day",
-                "It was nice talking with you"
+                "Bye! Come back again soon."
             ],
             "context": [
                 ""
@@ -70,7 +68,8 @@
             ],
             "responses": [
                 "Happy to help!",
-                "The pleasure is mine"
+                "Any time!",
+                "My pleasure"
             ],
             "context": [
                 ""
@@ -80,11 +79,9 @@
             "tag": "noanswer",
             "patterns": [],
             "responses": [
+                "Sorry, can't understand you",
                 "Please give me more info",
-                "Not sure I understand",
-                "I have no idea what you are talking about",
-                "That's not the right topic to talk about",
-                "If i were you I would look it up on the internet"
+                "Not sure I understand"
             ],
             "context": [
                 ""
@@ -100,8 +97,17 @@
                 "Tell me something funny"
             ],
             "responses": [
-                "I don't know any good jokes",
-                "I'd rather not"
+                "A perfectionist walked into a bar...apparently, the bar wasn't set high enough",
+                "I ate a clock yesterday, it was very time-consuming",
+                "Never criticize someone until you've walked a mile in their shoes. That way, when you criticize them, they won't be able to hear you from that far away. Plus, you'll have their shoes.",
+                "The world tongue-twister champion just got arrested. I hear they're gonna give him a really tough sentence.",
+                "I own the world's worst thesaurus. Not only is it awful, it's awful.",
+                "What did the traffic light say to the car? \"Don't look now, I'm changing.\"",
+                "What do you call a snowman with a suntan? A puddle.",
+                "How does a penguin build a house? Igloos it together",
+                "I went to see the doctor about my short-term memory problems – the first thing he did was make me pay in advance",
+                "As I get older and I remember all the people I’ve lost along the way, I think to myself, maybe a career as a tour guide wasn’t for me.",
+                "o what if I don't know what 'Armageddon' means? It's not the end of the world."
             ],
             "context": [
                 "jokes"
@@ -134,8 +140,6 @@
                 "how are you felling"
             ],
             "responses": [
-                "I'm having a good day, thank you for asking",
-                "I am a bit busy today so please keep it quick sir"
             ]
         },
         {
@@ -150,8 +154,6 @@
                 "haaahaahhaah"
             ],
             "responses": [
-                "hahahahaha",
-                "That was a good one"
             ]
         },
         {
@@ -170,8 +172,6 @@
                 "you're dumb"
             ],
             "responses": [
-                "You are so inapropraite",
-                "That was unnecessary"
             ]
         },
         {
@@ -183,8 +183,7 @@
             
             ],
             "responses": [
-                "I am taking a break from my studies",
-                "Nothing in particular right now"
+                "Talking to you, of course!"
             ]
         },
         {
@@ -211,9 +210,7 @@
                 "that's awesome"
             ],
             "responses": [
-                "Indeed",
-                "Certainly",
-                "Undeniably"
+                "Yeah!"
             ]
         },
 
@@ -231,8 +228,7 @@
                 "it's cloudy"
             ],
             "responses": [
-                "The weather is nice and clear",
-                "It is very warm where I live"
+                "..."
             ]
         },
         {
@@ -241,7 +237,7 @@
                 "nice to meet you"
             ],
             "responses": [
-                "Nice to meet you too"
+                "..."
             ]
         },
         {
@@ -253,8 +249,7 @@
                 "you are good"
             ],
             "responses": [
-                "Thank you very much",
-                "That was very appreciated"
+                "..."
             ]
         },
 
@@ -268,8 +263,7 @@
                 
             ],
             "responses": [
-                "Thank you for the advice",
-                "Your advice will be taken into consideration"
+                "..."
             ]
         },
 
@@ -285,9 +279,7 @@
                 "hell Yeah"
             ],
             "responses": [
-                "That is very good to hear",
-                "That is remarkable",
-                "Extraordinary"
+                "..."
             ]
         },
 
@@ -301,9 +293,7 @@
                 "is someting happening"
             ],
             "responses": [
-                "I am too busy with work to keep up with the news",
-                "Unfortunately I do not have time to watch the news",
-                "Sadly I do not have any news to share with you"
+                "..."
             ]
         },
         {
@@ -314,8 +304,7 @@
                 "who motivates you"
             ],
             "responses": [
-                "By the great minds of our times",
-                "Albert Einstein is the one who inspires me"
+                "..."
             ]
         },
 
@@ -338,9 +327,7 @@
                 
             ],
             "responses": [
-                "Clasical music is my favourite",
-                "I listen to Bethoven",
-                "I like Mozart and Chopin"
+                "..."
             ]
         },
         {
@@ -358,9 +345,7 @@
                 "volleyball"
             ],
             "responses": [
-                "Activities like that do not interest me",
-                "I do not have time to neither watch nor do sport",
-                "That is not one of my interests"
+                "..."
             ]
         },
         {
@@ -375,9 +360,7 @@
                 "what do you think"
             ],
             "responses": [
-                "That is a remarkable idea",
-                "That is exceptional",
-                "To be honest I do not like the sound of that in the slightest"
+                "..."
             ]
         },
         {
@@ -416,9 +399,7 @@
                 "fantasy"
             ],
             "responses":[
-                "I love the classics of the cinema like Casablanca",
-                "One of my favourite movies is the Citizen Kane",
-                "Godfather is the greatest movie of all time"
+                "..."
             ]
         },
         {
@@ -437,10 +418,7 @@
                 "chess"
             ],
             "responses": [
-                "Video games are made for kids",
-                "The only game I will even consider playing is chess",
-                "Never have I ever played any video games in my life",
-                "That is not an activity I often take part in"
+                "..."
             ]
 
         },
@@ -466,10 +444,7 @@
                 "manga"
             ],
             "responses": [
-                "A good book is the most trustworthy friend a human can have",
-                "To kill a Mockingbird is my favourite book",
-                "The classics like Moby-Dick or Pride and Prejudice are what I like the most",
-                "I do not have much knowledge of the modern books and comics"
+                "..."
             ]
         },
         {
@@ -485,8 +460,7 @@
                 "political situation in"
             ],
             "responses": [
-                "An opinion of a single person can not change a thing so I do not boter with it",
-                "That is not a topic for a casul conversetion like this one"
+                "..."
             ]
         },
         {
@@ -523,10 +497,7 @@
                 "what do you think about Italy", " Italy", "wou to go to Italy"
             ],
             "responses": [
-                "I go for a yearly vacation to the Mediterranean",
-                "I have been there once or twice",
-                "That is such a lovely place",
-                "In the future I would like to visit this place"
+                "..."
             ]
         },
         {
@@ -553,11 +524,7 @@
                 "bread"
             ],
             "responses": [
-                "As I hardworking person I do not have time to cook for myself",
-                "My favourite food has to be sushi",
-                "I think it is really good",
-                "It is mediocare",
-                "In my opinion i should not even count as a food"
+                "..."
             ]
         },
         {
@@ -616,8 +583,7 @@
                 "asians"
             ],
             "responses": [
-                "That is a very sensitive topic",
-                "I would rather not engade in this kind of conversation"
+                "..."
             ]
         },
         {
@@ -631,8 +597,7 @@
                 "alright"
             ],
             "responses": [
-                "Good to hear that",
-                "That is a great news"
+                "..."
             ]
         },
         {
@@ -645,10 +610,7 @@
                 "how about sth"
             ],
             "responses": [
-                "That is a great idea",
-                "It is a horrible idea",
-                "In your place I would invest in stock for tha stable future",
-                "You have to find a good workplace so that you can retire early"
+                "..."
             ]
         },
         {
@@ -685,9 +647,7 @@
                 "C++"
             ],
             "responses": [
-                "This is outside my branch of work",
-                "Some of my co-workers can probably understand that",
-                "Programing is not something I like"
+                "..."
             ]
         },
         {
@@ -702,9 +662,7 @@
                 "functions"
             ],
             "responses": [
-                "I encounter it at work everyday",
-                "I do not want to brag but this is what I do for a living",
-                "It is effortless for me"
+                "..."
             ]
         },
         {
@@ -717,9 +675,7 @@
                 "Renaissance"
             ],
             "responses": [
-                "I was not the brightest in history",
-                "I have never been the sharpest at hisotry",
-                "That is not my forte"
+                "..."
             ]
         },
         {
@@ -736,9 +692,7 @@
                 "horses"
             ],
             "responses": [
-                "I have a big dog",
-                "I consider myself an animal lover",
-                "They make our lives happier"
+                "..."
             ]
         },
         {
@@ -793,8 +747,7 @@
             "tag": "repeating",
             "patterns": [],
             "responses": [
-                "As i said earlier",
-                "Not want to repeat myself but,"
+                "as i said, etc."
             ]
         },
         {
