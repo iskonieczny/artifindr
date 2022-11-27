@@ -10,6 +10,12 @@ import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
+import os
+
+cwd = os.getcwd()  # Get the current working directory (cwd)
+files = os.listdir(cwd)  # Get all the files in that directory
+print("Files in %r: %s" % (cwd, files))
+
 nltk.download("punkt")
 nltk.download("wordnet")
 
@@ -62,7 +68,7 @@ def get_response(intents_list, intents_json):
     return result
 
 
-data_file = open("intents.json").read()
+data_file = open("./intents.json").read()
 data = json.loads(data_file)
 
 
