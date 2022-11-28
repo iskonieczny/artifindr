@@ -10,10 +10,6 @@ from tensorflow import keras
 nltk.download("punkt")
 nltk.download("wordnet")
 
-import os
-
-print(os.path)
-
 
 def ask_a_question():
     result = random.randint(0, 100)

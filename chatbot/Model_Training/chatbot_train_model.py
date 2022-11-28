@@ -10,12 +10,6 @@ import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
-import os
-
-cwd = os.getcwd()  # Get the current working directory (cwd)
-files = os.listdir(cwd)  # Get all the files in that directory
-print("Files in %r: %s" % (cwd, files))
-
 nltk.download("punkt")
 nltk.download("wordnet")
 
@@ -128,7 +122,7 @@ print(model.summary())
 
 model.fit(x=train_X, y=train_Y, epochs=400, verbose=1)
 
-model.save('first_model')
+model.save('latest_model')
 
 
 
