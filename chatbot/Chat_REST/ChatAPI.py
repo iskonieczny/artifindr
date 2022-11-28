@@ -1,4 +1,4 @@
-from Chatbot.chat import Chat
+from chat import Chat
 from flask import Flask, request, jsonify
 
 app = Flask("ChatAPI")
