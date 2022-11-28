@@ -1,5 +1,6 @@
 from chat import Chat
-from flask import Flask, request, jsonify
+from flask import Flask, request
+import os
 
 app = Flask("ChatAPI")
 
@@ -13,4 +14,5 @@ def get_response():
     return result
 
 
-app.run()
+port = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=port)

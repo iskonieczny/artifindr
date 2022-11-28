@@ -7,8 +7,11 @@ import random
 import numpy as np
 from tensorflow import keras
 
+print(nltk.data.path)
+
 nltk.download("punkt")
 nltk.download("wordnet")
+nltk.download("omw-1.4")
 
 
 def ask_a_question():
