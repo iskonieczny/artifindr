@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/style.scss';
+import 'bootstrap'
 import App from './App';
 import {
   createBrowserRouter,
@@ -22,7 +23,7 @@ const wrapRoute = (route) => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: wrapRoute(<App />),
+    element: <App />,
   },
   {
     path: "/auth/login",
@@ -36,10 +37,8 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router}/>
     </Provider>
-  </React.StrictMode>
 );
 

@@ -13,6 +13,8 @@ export const reducer = (state = defaultState, action) => {
       return {...state, flow: action.payload}
     case types.IMG_SET:
       return {...state, img: action.payload}
+    case types.DEFAULT:
+      return {...state, [action.key]: action.payload}
     default:
       return state;
   }

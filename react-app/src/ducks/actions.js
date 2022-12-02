@@ -9,3 +9,9 @@ export const setImg = (payload) => ({
   type: types.IMG_SET,
   payload: payload
 })
+
+export const setSingleValue = (key, payload) => ({
+  type: types.DEFAULT,
+  key: key,
+  payload: payload
+})

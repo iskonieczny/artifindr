@@ -1,11 +1,11 @@
 
 $theme-colors: (
-  "primary": #3a0b0b,
-  "secondary": #df9558,
+  "primary": #493143,
+  "secondary": #dac9df,
   "info": rgb(49, 128, 128),
   "danger": rgb(199, 18, 18),
   "dark": #3a3749,
-  "light": #b6b6b6,
+  "light": #b4b4b4,
   "semi-light": #a7a7a7
 );
 
@@ -56,6 +56,11 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
   max-width: 300px;
 }
 
+.navbar-drop {
+  position: absolute;
+  right: 100;
+}
+
 .mid {
   justify-content: center;
   text-align: center;
@@ -63,13 +68,6 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
     justify-content: left;
     text-align: left;
   }
-}
-
-.notification {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 1;
 }
 
 .invisible {
@@ -88,16 +86,26 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
 .navbar {
   background-color: map-get($theme-colors, primary);
   z-index: 1;
-  * {
-    z-index: 3;
-    text-decoration: none;
-    color: white;
-    display: inline-block;
-    padding: 0.1rem;
-    font-size: 1.4rem;
-    min-height: 10px;
+  .navbar-left {
+    * {
+      z-index: 3;
+      text-decoration: none;
+      color: white;
+      display: inline-block;
+      padding: 0.1rem;
+      font-size: 1.4rem;
+      min-height: 10px;
+    }
   }
 }
+
+.caret-off::before {
+  display: none;
+}
+.caret-off::after {
+  display: none;
+}
+
 
 .curve {
   z-index: 2;
@@ -109,6 +117,41 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
   //border-bottom-right-radius:50% 50%;
   background: radial-gradient(120% 100% at bottom, transparent 40%, map-get($theme-colors, primary) 50%);
 }
+
+.swiper {
+  width: 320px;
+  * {
+    padding: 5px;
+  }
+  img {
+    border-radius: 10%;
+    width: 100%;
+  }
+}
+
+@keyframes swipe-right {
+  to {
+    opacity: 0;
+    transform: rotate(0.2turn) translateY(-100px) translateX(300px) scale(0.8);
+  }
+}
+
+@keyframes swipe-left {
+  to {
+    opacity: 0;
+    transform: rotate(-0.2turn) translateY(-100px) translateX(-300px) scale(0.8);
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 .marked {
   filter: sepia(100%) contrast(500%);
@@ -124,11 +167,6 @@ ul {
   background-color: white;
   box-shadow: none;
   color: $primary;
-}
-
-.dropdown-toggle:hover .dropdown-menu {
-    display: block;
-    z-index: 1;
 }
 
 .panel {
