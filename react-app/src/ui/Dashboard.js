@@ -14,32 +14,28 @@ import Swiper from './Swiper';
 function Dashboard() {
 
   const router = useRouter()
-  const logout = useLogout()
   const flow = useSelector((state) => state.flow)
-  const img = useSelector((state) => state.img)
-  const [style, setStyle] = useState({})
-  
-  const swiperPersonData = useSelector((state) => state.swiperPersonData)
 
   const dispatch = useDispatch()
   const swipers = useSelector((state) => state.swipers)
-
-
-  
+  const swiperPersonData = useSelector((state) => state.swiperPersonData)
 
   const getName = () => {
     const traits=flow.identity.traits
     return traits.first_name + " " + traits.last_name
   }
 
-  
-
-  
-
   useEffect(() => {
-    axios.get("https://random-data-api.com/api/v2/users?size=2&response_type=json")
+    dispatch(setSingleValue("swiperStyles", [{}, {position: "absolute", visibility:"hidden"}]))
+    swiperPersonData
+    || axios.get("https://random-data-api.com/api/v2/users?size=2&response_type=json")
     .then((res) => dispatch(setSingleValue("swiperPersonData", res.data[0])))
-    dispatch(setSingleValue("swipers", [<Swiper key={Math.random()} id={Math.random()} style={style} />]))
+    //fixing same images problem when adding at once
+    const swiper = <Swiper key={Math.random()} id={Math.random()} queue={0} />
+    dispatch(setSingleValue("swipers", [swiper]))
+    setTimeout(() => {
+      dispatch(setSingleValue("swipers", [swiper, <Swiper key={Math.random()} id={Math.random()} queue={1} />]))
+    }, 200)
   }, [])
 
   const isVerified = !flow 
@@ -48,21 +44,25 @@ function Dashboard() {
   || !flow.identity
   || flow.identity.verifiable_addresses[0].verified
 
-  return (!flow) ? (<>loading...</>) : (
+  return (!flow || !swipers) ? (<>loading...</>) : (
     <div className='wrapper'>
       <Navbar/>
       <div className="d-flex justify-content-center flex-wrap">
-        <div className="m-1 p-3 rounded-5 text-center bg-secondary">
-          {flow?.identity && `Hello, ${getName()}`}
-          <div>
-            {isVerified ? "Your account is set up and ready for love." : "Please, verify your address"}
-          </div>
-        </div>
         <div className="break" />
-        {swipers}
+        {swipers.slice(0,2)}
       </div>
     </div>
   );
 }
 
 export default Dashboard;
+
+/*
+
+        <div className="m-1 p-3 rounded-5 text-center bg-secondary">
+          {flow?.identity && `Hello, ${getName()}`}
+          <div>
+            {isVerified ? "Your account is set up and ready for love." : "Please, verify your address"}
+          </div>
+        </div>
+*/

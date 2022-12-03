@@ -2,15 +2,21 @@ import { Link } from "react-router-dom"
 import { useRouter } from "../hooks/useRouter"
 import { useSelector, useDispatch } from 'react-redux'
 import { useLogout } from '../hooks/useLogout';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const Navbar = () => {
 
   const router = useRouter()
   const flow = useSelector((state) => state.flow)
-  const [dropdown, setDropdown] = useState(false)
   const logout = useLogout()
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--nav-height',
+      document.getElementById("navbar").offsetHeight+document.getElementById("curve").offsetHeight+"px"
+    )
+  }, [])
 
   const getLink = (path, text) => {
     return router.location.pathname === path ? 
@@ -40,16 +46,17 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="px-2 navbar sticky-top">
+      <div className="px-2 navbar sticky-top" id="navbar">
         <div className="navbar-left">
           {getBackLink()}
           {getLink('/', 'artiFindr')}
+          {flow?.identity && getLink('/messages', 'messages')}
         </div>
         <div>
           {flow?.identity && getOptions()}
         </div>
       </div>
-      <div className="curve"/>
+      <div className="curve" id="curve" />
     </>
   )
 }

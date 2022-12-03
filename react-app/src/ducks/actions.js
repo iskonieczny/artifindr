@@ -10,6 +10,16 @@ export const setImg = (payload) => ({
   payload: payload
 })
 
+export const addChat = (payload) => ({
+  type: types.CHAT_ADD,
+  payload: payload
+})
+
+export const addMessage = (chat, message) => ({
+  type: types.MESSAGE_ADD,
+  payload: {chat, message}
+})
+
 export const setSingleValue = (key, payload) => ({
   type: types.DEFAULT,
   key: key,

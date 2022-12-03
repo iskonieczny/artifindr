@@ -46,3 +46,8 @@ services:
     build: ./gan_api
     ports:
       - "5000:5000"
+  chat_api:
+    container_name: chat_api
+    build: ./chat_api
+    ports:
+      - "5100:5000"

@@ -122,7 +122,7 @@ secrets:
 
 session:
   # Change this to values such as '1s', '1m', etc. to see how Kratos handles invalidating a session.
-  lifespan: 1h
+  lifespan: 720h
 
 # These values can be gathered by using the kratos cli.
 # The default values should work for testing.

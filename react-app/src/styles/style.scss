@@ -23,6 +23,10 @@ $primary: #343434;
 $secondary: #f6f4f2;
 $bootstrap-default: #0d6efd;
 
+:root {
+  --nav-height: 1vh;
+}
+
 h1, h2, h3, h4, h5, h6, p, .chatbox {
   overflow-wrap: anywhere;
 }
@@ -30,6 +34,11 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
 .wrapper {
   min-height: 100vh;
   background: map-get($theme-colors, light);
+}
+
+.messages {
+    width: 100vw;
+    height: calc(100vh - var(--nav-height));
 }
 
 .main {
@@ -92,9 +101,12 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
       text-decoration: none;
       color: white;
       display: inline-block;
-      padding: 0.1rem;
+      padding-right: 1rem;
       font-size: 1.4rem;
       min-height: 10px;
+      &:hover {
+        color:rgba(175, 83, 140, 0.5);
+      }
     }
   }
 }
@@ -119,6 +131,7 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
 }
 
 .swiper {
+  display: block;
   width: 320px;
   * {
     padding: 5px;
@@ -143,6 +156,19 @@ h1, h2, h3, h4, h5, h6, p, .chatbox {
   }
 }
 
+@keyframes rev-swipe-right {
+  from {
+    opacity: 0;
+    transform: rotate(0.2turn) translateY(-100px) translateX(300px) scale(0.8);
+  }
+}
+
+@keyframes rev-swipe-left {
+  from {
+    opacity: 0;
+    transform: rotate(-0.2turn) translateY(-100px) translateX(-300px) scale(0.8);
+  }
+}
 
 
 
@@ -183,9 +209,7 @@ ul {
 
 
 .chatbox {
-  width: 300px;
-  font-weight: 200;
-  height: 450px;
+  height: 100%;
   //overflow-y: scroll;
 }
 
@@ -245,6 +269,50 @@ svg path {
   }
 }
 
+.active {
+  color:rgb(187, 74, 177)!important;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: map-get($theme-colors, primary);
+  border-radius: 10px;
+}
+
+.chat-list {
+  width: 260px;
+  overflow: -webkit-scrollbar; 
+  overflow-y: scroll;
+  * {
+    img {
+      flex-shrink: 0;
+    }
+    overflow:hidden;
+    white-space:nowrap; 
+    text-overflow:ellipsis; 
+  }
+}
+
+.message-box {
+  width: 100%;
+  height: 10%;
+  overflow-y: scroll;
+}
+
+.chat-list-elem {
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
 .modal {
   position: fixed;
   display: block;
@@ -273,81 +341,8 @@ svg path {
   }
 }
 
-.error {
-  border: 2px solid #FF6565;
-}
-
-.text-red {
-  color: #ea1f1f;
-}
-
-.text-blue {
-  color: #1f5cea;
-}
-
-.hexagon-red {
-  position: relative;
-  width: 25px; 
-  height: 14.43px;
-  background-color: #ea1f1f;
-  margin: 7.22px 0;
-}
-
-.hexagon-red:before,
-.hexagon-red:after {
-  content: "";
-  position: absolute;
-  width: 0;
-  border-left: 12.5px solid transparent;
-  border-right: 12.5px solid transparent;
-}
-
-.hexagon-red:before {
-  bottom: 100%;
-  border-bottom: 7.22px solid #ea1f1f;
-}
-
-.hexagon-red:after {
-  top: 100%;
-  width: 0;
-  border-top: 7.22px solid #ea1f1f;
-}
-
-.hexagon-blue {
-  position: relative;
-  width: 25px; 
-  height: 14.43px;
-  background-color: #1f5cea;
-  margin: 7.22px 0;
-}
-
-.hexagon-blue:before,
-.hexagon-blue:after {
-  content: "";
-  position: absolute;
-  width: 0;
-  border-left: 12.5px solid transparent;
-  border-right: 12.5px solid transparent;
-}
-
-.hexagon-blue:before {
-  bottom: 100%;
-  border-bottom: 7.22px solid #1f5cea;
-}
-
-.hexagon-blue:after {
-  top: 100%;
-  width: 0;
-  border-top: 7.22px solid #1f5cea;
-}
-
 .wrap{
   perspective-origin: 50% 50%;
-}
-
-.bg-hexagon {
-  filter: invert(60%) sepia(50%) saturate(4500%);
-  animation: rotate 80s linear infinite;
 }
 
 @keyframes rotate {

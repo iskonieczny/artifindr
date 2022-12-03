@@ -15,6 +15,7 @@ import Verify from './auth/Verify';
 import { Provider } from 'react-redux'
 import { store } from './ducks/store';
 import Navbar from './ui/Navbar';
+import Messages from './ui/Messages';
 
 const wrapRoute = (route) => {
   return (<div className='wrapper'><Navbar/>{route}</div>)
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/auth/register",
     element: wrapRoute(<Register />),
+  },
+  {
+    path: "/messages",
+    element: wrapRoute(<Messages />),
   }
 ]);
 
