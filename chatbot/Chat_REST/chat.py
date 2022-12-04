@@ -113,7 +113,7 @@ class Chat:
         if question:
             for i in list_of_intents:
                 if i["tag"] == "question":
-                    result += " |" + random.choice(i["responses"])
+                    result += ". " + random.choice(i["responses"])
         return {
             "response": result,
             "tag_used": tag_to_return

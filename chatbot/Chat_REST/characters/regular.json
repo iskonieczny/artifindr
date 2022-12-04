@@ -892,7 +892,9 @@
                 " What do you like doing",
                 " what;s your favourite movie?",
                 " Do you play video games?",
-                " Do you program a lot?"
+                " Do you program a lot?",
+                " How about you?",
+                " What do you plan on doing in the future"
             ]
         },
         {
@@ -967,7 +969,9 @@
   "Volvo"
             ],
             "responses": [
-                "..."
+                "I'm not really that much into cars",
+                "I have an old Toyota Prius",
+                "Sadly I'm not a mechanic"
             ]
         },
         {
@@ -978,7 +982,7 @@
                 "Do you have siblings"
             ],
             "responses": [
-                "..."
+                "I have a brother and sister"
             ]
         }
     ]

@@ -120,7 +120,7 @@ model.compile(loss='categorical_crossentropy',
 
 print(model.summary())
 
-model.fit(x=train_X, y=train_Y, epochs=400, verbose=1)
+model.fit(x=train_X, y=train_Y, epochs=200, verbose=1)
 
 model.save('chat_model')
 
