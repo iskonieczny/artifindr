@@ -22,7 +22,7 @@
                 "Welcome"
             ],
             "responses": [
-
+                "..."
             ],
             "context": [
                 ""
@@ -43,9 +43,7 @@
                 "Good night"
             ],
             "responses": [
-                "See you!",
-                "Have a nice day",
-                "Bye! Come back again soon."
+                "..."
             ],
             "context": [
                 ""
@@ -67,9 +65,7 @@
                 "you're a lifesaver"
             ],
             "responses": [
-                "Happy to help!",
-                "Any time!",
-                "My pleasure"
+                "..."
             ],
             "context": [
                 ""
@@ -79,9 +75,7 @@
             "tag": "noanswer",
             "patterns": [],
             "responses": [
-                "Sorry, can't understand you",
-                "Please give me more info",
-                "Not sure I understand"
+                "..."
             ],
             "context": [
                 ""
@@ -97,17 +91,7 @@
                 "Tell me something funny"
             ],
             "responses": [
-                "A perfectionist walked into a bar...apparently, the bar wasn't set high enough",
-                "I ate a clock yesterday, it was very time-consuming",
-                "Never criticize someone until you've walked a mile in their shoes. That way, when you criticize them, they won't be able to hear you from that far away. Plus, you'll have their shoes.",
-                "The world tongue-twister champion just got arrested. I hear they're gonna give him a really tough sentence.",
-                "I own the world's worst thesaurus. Not only is it awful, it's awful.",
-                "What did the traffic light say to the car? \"Don't look now, I'm changing.\"",
-                "What do you call a snowman with a suntan? A puddle.",
-                "How does a penguin build a house? Igloos it together",
-                "I went to see the doctor about my short-term memory problems – the first thing he did was make me pay in advance",
-                "As I get older and I remember all the people I’ve lost along the way, I think to myself, maybe a career as a tour guide wasn’t for me.",
-                "o what if I don't know what 'Armageddon' means? It's not the end of the world."
+                "..."
             ],
             "context": [
                 "jokes"
@@ -140,6 +124,7 @@
                 "how are you felling"
             ],
             "responses": [
+                "..."
             ]
         },
         {
@@ -154,6 +139,7 @@
                 "haaahaahhaah"
             ],
             "responses": [
+                "..."
             ]
         },
         {
@@ -172,6 +158,7 @@
                 "you're dumb"
             ],
             "responses": [
+                "..."
             ]
         },
         {
@@ -183,7 +170,7 @@
             
             ],
             "responses": [
-                "Talking to you, of course!"
+                "..."
             ]
         },
         {
@@ -210,7 +197,7 @@
                 "that's awesome"
             ],
             "responses": [
-                "Yeah!"
+                "..."
             ]
         },
 
@@ -322,9 +309,6 @@
                 "band",
                 "I love .. what about you",
                 "music is great"
-
-
-                
             ],
             "responses": [
                 "..."
@@ -621,15 +605,7 @@
                 "Riddle"
             ],
             "responses": [
-                "What two things can you never eat for breakfast?.....Lunch and Dinner!",
-                "What word is spelled incorrectly in every single dictionary?.....Incorrectly",
-                " How can a girl go 25 days without sleep?.....She sleeps and night!",
-                "How do you make the number one disappear?.....Add the letter G and it’s 'gone'!",
-                " What will you actually find at the end of every rainbow?.....The letter 'w'",
-                "What can be caught but never thrown?.....A cold!",
-                "What has a thumb and four fingers but is not actually alive?.....Your Gloves!",
-                " What 5-letter word becomes shorter when you add two letters to it?.....Short",
-                "Why can't a bike stand on it's own?.....It is two-tired."
+                "..."
             ],
             "context": [
                 "riddles"
@@ -755,6 +731,81 @@
             "patterns": [],
             "responses": [
                 "after an answer follow up with a question"
+            ]
+        },
+        {
+            "tag": "cars",
+            "patterns": [
+                "Do you have a car",
+                "What car do you drive",
+                "how do you get to work",
+                "Abarth",
+  "Alfa Romeo",
+  "Aston Martin",
+  "Audi",
+  "Bentley",
+  "BMW",
+  "Bugatti",
+  "Cadillac",
+  "Chevrolet",
+  "Chrysler",
+  "Citroën",
+  "Dacia",
+  "Daewoo",
+  "Daihatsu",
+  "Dodge",
+  "Donkervoort",
+  "DS",
+  "Ferrari",
+  "Fiat",
+  "Fisker",
+  "Ford",
+  "Honda",
+  "Hummer",
+  "Hyundai",
+  "Infiniti",
+  "Iveco",
+  "Jaguar",
+  "Jeep",
+  "Kia",
+  "KTM",
+  "Lada",
+  "Lamborghini",
+  "Lancia",
+  "Land Rover",
+  "Landwind",
+  "Lexus",
+  "Lotus",
+  "Maserati",
+  "Maybach",
+  "Mazda",
+  "McLaren",
+  "Mercedes-Benz",
+  "MG",
+  "Mini",
+  "Mitsubishi",
+  "Morgan",
+  "Nissan",
+  "Opel",
+  "Peugeot",
+  "Porsche",
+  "Renault",
+  "Rolls-Royce",
+  "Rover",
+  "Saab",
+  "Seat",
+  "Skoda",
+  "Smart",
+  "SsangYong",
+  "Subaru",
+  "Suzuki",
+  "Tesla",
+  "Toyota",
+  "Volkswagen",
+  "Volvo"
+            ],
+            "responses": [
+                "..."
             ]
         }
     ]
