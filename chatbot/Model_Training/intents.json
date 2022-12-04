@@ -807,6 +807,17 @@
             "responses": [
                 "..."
             ]
+        },
+        {
+            "tag": "family",
+            "patterns": [
+                "Do you have brother",
+                "Do you have sister",
+                "Do you have siblings"
+            ],
+            "responses": [
+                "..."
+            ]
         }
     ]
 }
