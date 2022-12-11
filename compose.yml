@@ -1,0 +1,52 @@
+version: "3.9" 
+
+services:
+  kratos-migrate:
+    depends_on: 
+    - "postgres"
+    image: oryd/kratos:v0.10.1
+    environment:
+      - DSN=postgres://kratos:secret@postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+    volumes:
+      - type: bind
+        source: ./config
+        target: /etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+  postgres: 
+    container_name: postgres
+    image: "postgres" 
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    volumes: 
+      - ./db-data:/var/lib/postgresql/data/ 
+      - ./sql:/docker-entrypoint-initdb.d/:ro 
+    ports: 
+      - "5432:5432"
+  kratos: 
+    container_name: kratos
+    image: "oryd/kratos:v0.10.1" 
+    depends_on: 
+      - "kratos-migrate" 
+    environment:
+      - DSN=postgres://kratos:secret@postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+      - LOG_LEVEL=trace
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+    volumes:
+      - type: bind
+        source: ./config
+        target: /etc/config/kratos
+    ports: 
+      - "4433:4433"
+      - "4434:4434"
+  gan_api:
+    container_name: gan_api
+    build: ./GenAPI
+    ports:
+      - "5000:5000"
+  chat_api:
+    container_name: chat_api
+    build: ./chatbot/Chat_REST
+    ports:
+      - "5100:5000"
