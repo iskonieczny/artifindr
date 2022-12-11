@@ -42,11 +42,11 @@ services:
       - "4434:4434"
   gan_api:
     container_name: gan_api
-    build: ./gan_api
+    build: ./GenAPI
     ports:
       - "5000:5000"
   chat_api:
     container_name: chat_api
-    build: ./chat_api
+    build: ./chatbot/Chat_REST
     ports:
       - "5100:5000"

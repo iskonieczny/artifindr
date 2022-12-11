@@ -1,0 +1,5 @@
+db-data
+chatbot
+GenAPI/*
+!GenApi/Dockerfile
+!GenApi/requirements.txt
