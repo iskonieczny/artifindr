@@ -24,7 +24,7 @@ const Messages = () => {
       resetForm()
       values.message && axios.post(process.env.REACT_APP_CHAT_API_ADDR+"/chatapi", {
         "message": values.message,
-        "chatbot_character": "formal",
+        "chatbot_character": "not_formal",
         "last_tag_used": "None"
       }).then(res => {
         dispatch(addMessage(activeChat, {message: values.message, fromUser: true}))
