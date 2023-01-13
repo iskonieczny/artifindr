@@ -24,7 +24,8 @@
             "responses": [
                 "Good morning",
                 "Hello sir, how can I help?",
-                "It's good to see you"
+                "It's good to see you",
+                "Greetings sir."
             ],
             "context": [
                 ""
@@ -47,7 +48,8 @@
             "responses": [
                 "Goodbye",
                 "Have a nice day",
-                "It was nice talking with you"
+                "It was nice talking to you",
+                "Farewell."
             ],
             "context": [
                 ""
@@ -84,7 +86,9 @@
                 "Not sure I understand",
                 "I have no idea what you are talking about",
                 "That's not the right topic to talk about",
-                "If i were you I would look it up on the internet"
+                "If i were you I would look it up on the internet",
+                "I don't know what to say, apologies.",
+                "I'm afraid I can't say anything more."
             ],
             "context": [
                 ""
@@ -772,7 +776,9 @@
             "tag": "doging",
             "patterns" : [],
             "responses": [
-                "..."
+                "...",
+                "I see.",
+                "Noted."
             ]
         },
         {
