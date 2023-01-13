@@ -57,7 +57,8 @@ class Processor:
         image = self.__denoise(image)
         image = self.__sharpen(image)
         image = self.__lower_contrast(image)
-        image = self.__colourise(image)
+        # colourise commented out for MONEY REASONS
+        # image = self.__colourise(image)
 
         return image
 
