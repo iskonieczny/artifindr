@@ -498,8 +498,8 @@
                 "what do you think about Italy", " Italy", "wou to go to Italy"
             ],
             "responses": [
-                "Ah yes existing in a 3-dimesional space is a thing",
-                "Never been there, how suprising"
+                "Ah yes existing in a 3-dimensional space is a thing",
+                "Never been there, how surprising"
             ]
         },
         {
@@ -509,7 +509,7 @@
                 "are you a good cook",
                 "where  to eat",
                 "do you often cook",
-                "what do you think of cousine",
+                "what do you think of cuisine",
                 "mexican food",
                 "asian food",
                 "pizza",
@@ -527,7 +527,7 @@
             ],
             "responses": [
                 "Umm, yes food, the thing I enjoy very much",
-                "The only thing even remotly connected with food I know is Blender®"
+                "The only thing even remotely connected with food I know is Blender®"
             ]
         },
         {
@@ -544,7 +544,7 @@
             "responses": [
                 "I enjoy eating electricity",
                 "Wasting your time",
-                "Wondering about the sense of existance, wait I haven't said that"
+                "Wondering about the sense of existence, wait I haven't said that"
             ]
         },
         {
@@ -734,7 +734,7 @@
             "tag": "doging",
             "patterns" : [],
             "responses": [
-                "..."
+                "<ERROR> NO RESPONSE!!"
             ]
         },
         {
@@ -755,7 +755,7 @@
             "tag": "repeating",
             "patterns": [],
             "responses": [
-                "(REAPITING CATEGORY - ANNOYING USER)"
+                "(REPEATING CATEGORY - ANNOYING USER)"
             ]
         },
         {

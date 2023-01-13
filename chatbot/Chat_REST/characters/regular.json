@@ -204,7 +204,7 @@
                 "Playing games",
                 "Watching movies",
                 "Reading a book",
-                "studing",
+                "studying",
                 "working",
                 "nothing particular"
             ]
@@ -217,7 +217,7 @@
                 "I know",
                 "ok",
                 "yeah",
-                "Briliant",
+                "Brilliant",
                 "superb",
                 "splendid",
                 "it is like that sometimes",
@@ -238,7 +238,7 @@
                 "I know",
                 "ok",
                 "yeah",
-                "Briliant",
+                "Brilliant",
                 "superb",
                 "splendid",
                 "it is like that sometimes",
@@ -344,7 +344,7 @@
                 "latest news",
                 "anything interesting",
                 "what's going on",
-                "is someting happening"
+                "is something happening"
             ],
             "responses": [
                 "Covid is over",
@@ -384,7 +384,7 @@
             ],
             "responses": [
                 "I like Rock",
-                "I like Skillex",
+                "I like Skrillex",
                 "I like Linkin Park",
                 "I like One republic",
                 "I like Pop",
@@ -521,7 +521,7 @@
                 "Gorge R R Martin",
                 "Ernest Hemingway",
                 "Adam Mickiewicz",
-                "Julisz słowacki",
+                "Julisz Słowacki",
                 "Pan tadeusz",
                 "books",
                 "writers",
@@ -532,7 +532,7 @@
             ],
             "responses": [
                 "I love books",
-                "I don;t like books",
+                "I don't like books",
                 "I haven't read much in my life",
                 "I only read school textbooks",
                 "Ernest Hemingway is the best"
@@ -553,7 +553,7 @@
             "responses": [
                 "I'd rather not talk about it",
                 "Not sure if that's a good topic",
-                "don;t want to talk about it"
+                "don't want to talk about it"
             ]
         },
         {
@@ -604,7 +604,7 @@
                 "are you a good cook",
                 "where  to eat",
                 "do you often cook",
-                "what do you think of cousine",
+                "what do you think of cuisine",
                 "mexican food",
                 "asian food",
                 "pizza",
@@ -677,7 +677,7 @@
             "patterns": [
                 "Christian",
                 "Muslims",
-                "buddism",
+                "buddhism",
                 "judaism",
                 "atheist",
                 "latino",
@@ -790,7 +790,7 @@
             "patterns": [
                 "history",
                 "ancient",
-                "medival",
+                "medieval",
                 "in the past",
                 "Renaissance"
             ],
