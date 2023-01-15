@@ -5,3 +5,5 @@ pillow
 matplotlib
 opencv-python
 flask-cors
+psycopg2-binary
+uuid
