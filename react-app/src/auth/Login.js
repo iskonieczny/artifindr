@@ -124,13 +124,17 @@ const Login = () => {
         </form>
         
       </div>
+      <div className="mt-5">or</div>
       <div className="align-self-start m-3 p-3 rounded-5 bg-semi-light">
       <form
           action={flow.ui.action}
           method={flow.ui.method}
         >
-          <button type="submit" name="provider" value="google" className="p-2 btn btn-primary rounded-5 btn-lg">
-            Log in with Google
+          <button type="submit" name="provider" value="google" className="btn">
+            <img src="/btn_google_signin_dark_normal_web.png"
+            onMouseOver={e => (e.currentTarget.src = "/btn_google_signin_dark_focus_web.png")}
+            onMouseOut={e => (e.currentTarget.src = "/btn_google_signin_dark_normal_web.png")}
+            onClick={e => (e.currentTarget.src = "/btn_google_signin_dark_pressed_web.png")} />
           </button>
             </form>
       </div>
