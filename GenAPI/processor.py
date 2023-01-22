@@ -7,9 +7,9 @@ from PIL import Image
 
 class Processor:
     def __init__(self):
-        self.url = "https://api.deepai.org/api/colorizer"
+        #self.url = "https://api.deepai.org/api/colorizer"
         self.RES = 2048
-        # self.api_key = os.environ['api_key']
+        #self.api_key = os.environ['api_key']
         self.alpha = 0.35
         self.beta = 20
         self.searchWindowSize = 21
@@ -61,6 +61,6 @@ class Processor:
         image = self.__gaussian_blur(image)
         image = self.__lower_contrast(image)
         # colourise commented out for MONEY REASONS
-        # image = self.__colourise(image)
+        #image = self.__colourise(image)
 
         return image
