@@ -22,7 +22,8 @@ psql -v ON_ERROR_STOP=1 --username "postgres" <<-EOSQL
     img_path varchar(36) unique not null,
     name varchar(30) not null,
     gender varchar(15) not null,
-    bio varchar(100) not null
+    bio varchar(100) not null,
+    character varchar(30)
   );
 
   create table bot_user(
