@@ -114,7 +114,7 @@
                 "How does a penguin build a house? Igloos it together",
                 "I went to see the doctor about my short-term memory problems – the first thing he did was make me pay in advance",
                 "As I get older and I remember all the people I’ve lost along the way, I think to myself, maybe a career as a tour guide wasn’t for me.",
-                "o what if I don't know what 'Armageddon' means? It's not the end of the world."
+                "So what if I don't know what 'Armageddon' means? It's not the end of the world."
             ],
             "context": [
                 "jokes"
@@ -204,7 +204,7 @@
                 "Playing games",
                 "Watching movies",
                 "Reading a book",
-                "studing",
+                "studying",
                 "working",
                 "nothing particular"
             ]
@@ -217,7 +217,7 @@
                 "I know",
                 "ok",
                 "yeah",
-                "Briliant",
+                "Brilliant",
                 "superb",
                 "splendid",
                 "it is like that sometimes",
@@ -238,7 +238,7 @@
                 "I know",
                 "ok",
                 "yeah",
-                "Briliant",
+                "Brilliant",
                 "superb",
                 "splendid",
                 "it is like that sometimes",
@@ -297,7 +297,7 @@
                 "thanks",
                 "glad to hear that",
                 "<3",
-                "Aprecieted"
+                "Appreciated"
             ]
         },
 
@@ -312,7 +312,7 @@
             ],
             "responses": [
                 "ok",
-                "okey",
+                "okay",
                 "don't tell me what to do",
                 "if you say so"
             ]
@@ -344,7 +344,7 @@
                 "latest news",
                 "anything interesting",
                 "what's going on",
-                "is someting happening"
+                "is something happening"
             ],
             "responses": [
                 "Covid is over",
@@ -384,7 +384,7 @@
             ],
             "responses": [
                 "I like Rock",
-                "I like Skillex",
+                "I like Skrillex",
                 "I like Linkin Park",
                 "I like One republic",
                 "I like Pop",
@@ -457,7 +457,7 @@
                 "avatar",
                 "la casa del papel",
                 "breaking bad",
-                "Schawshenk redemption",
+                "Shawshank redemption",
                 "Nolan",
                 "clint eastwood",
                 "Harry potter",
@@ -475,11 +475,11 @@
             ],
             "responses":[
                 "I've seen the new Marvel movie recently",
-                "I love horor movies",
+                "I love horror movies",
                 "I prefer anime to regular tv shows",
                 "comedies are the best",
                 "my fav movies is spider-man no way home",
-                "havn't seen this one yet",
+                "haven't seen this one yet",
                 "i'd love to"
             ]
         },
@@ -521,7 +521,7 @@
                 "Gorge R R Martin",
                 "Ernest Hemingway",
                 "Adam Mickiewicz",
-                "Julisz słowacki",
+                "Julisz Słowacki",
                 "Pan tadeusz",
                 "books",
                 "writers",
@@ -532,7 +532,7 @@
             ],
             "responses": [
                 "I love books",
-                "I don;t like books",
+                "I don't like books",
                 "I haven't read much in my life",
                 "I only read school textbooks",
                 "Ernest Hemingway is the best"
@@ -553,7 +553,7 @@
             "responses": [
                 "I'd rather not talk about it",
                 "Not sure if that's a good topic",
-                "don;t want to talk about it"
+                "don't want to talk about it"
             ]
         },
         {
@@ -604,7 +604,7 @@
                 "are you a good cook",
                 "where  to eat",
                 "do you often cook",
-                "what do you think of cousine",
+                "what do you think of cuisine",
                 "mexican food",
                 "asian food",
                 "pizza",
@@ -677,7 +677,7 @@
             "patterns": [
                 "Christian",
                 "Muslims",
-                "buddism",
+                "buddhism",
                 "judaism",
                 "atheist",
                 "latino",
@@ -790,7 +790,7 @@
             "patterns": [
                 "history",
                 "ancient",
-                "medival",
+                "medieval",
                 "in the past",
                 "Renaissance"
             ],
@@ -890,11 +890,15 @@
             "responses": [
                 " What about you?",
                 " What do you like doing",
-                " what;s your favourite movie?",
+                " what's your favourite movie?",
                 " Do you play video games?",
                 " Do you program a lot?",
                 " How about you?",
-                " What do you plan on doing in the future"
+                " What do you plan on doing in the future?",
+                " What is you favourite animal?",
+                " What is you favourite food?",
+                " What is you favourite car?",
+                " What is you favourite music genre?"
             ]
         },
         {
