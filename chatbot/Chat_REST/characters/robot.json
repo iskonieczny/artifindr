@@ -1,7 +1,7 @@
 {
     "intents": [
 
-       
+
         {
             "tag": "greeting",
             "patterns": [
@@ -115,7 +115,7 @@
                 "I am a chatbot made for Artifindr application"
             ]
         },
-    
+
         {
             "tag": "whatsup",
             "patterns": [
@@ -175,7 +175,7 @@
                 "what are you doing",
                 "what are you up to",
                 "are you doing anything interesting"
-            
+
             ],
             "responses": [
                 "Waiting for your message so i can generate a response"
@@ -256,7 +256,7 @@
                 "nope",
                 "do not",
                 "don't"
-                
+
             ],
             "responses": [
                 "The advice may be followed some day"
@@ -762,7 +762,17 @@
             "tag": "question",
             "patterns": [],
             "responses": [
-                ""
+                " What about you?",
+                " What do you like doing",
+                " what's your favourite movie?",
+                " Do you play video games?",
+                " Do you program a lot?",
+                " How about you?",
+                " What do you plan on doing in the future?",
+                " What is you favourite animal?",
+                " What is you favourite food?",
+                " What is you favourite car?",
+                " What is you favourite music genre?"
             ]
         },
         {

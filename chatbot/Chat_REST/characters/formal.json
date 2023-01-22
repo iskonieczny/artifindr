@@ -1,7 +1,7 @@
 {
     "intents": [
 
-       
+
         {
             "tag": "greeting",
             "patterns": [
@@ -124,7 +124,7 @@
                 "get it from db"
             ]
         },
-    
+
         {
             "tag": "whatsup",
             "patterns": [
@@ -184,7 +184,7 @@
                 "what are you doing",
                 "what are you up to",
                 "are you doing anything interesting"
-            
+
             ],
             "responses": [
                 "I am taking a break from my studies",
@@ -269,7 +269,7 @@
                 "nope",
                 "do not",
                 "don't"
-                
+
             ],
             "responses": [
                 "Thank you for the advice",
@@ -339,7 +339,7 @@
                 "music is great"
 
 
-                
+
             ],
             "responses": [
                 "Clasical music is my favourite",
@@ -807,7 +807,17 @@
             "tag": "question",
             "patterns": [],
             "responses": [
-                "after an answer follow up with a question"
+                " What about you?",
+                " What do you like doing",
+                " what's your favourite movie?",
+                " Do you play video games?",
+                " Do you program a lot?",
+                " How about you?",
+                " What do you plan on doing in the future?",
+                " What is you favourite animal?",
+                " What is you favourite food?",
+                " What is you favourite car?",
+                " What is you favourite music genre?"
             ]
         },
         {
@@ -893,7 +903,7 @@
                 "Do you have siblings"
             ],
             "responses": [
-                "..."
+                "It is not professional to talk about family here"
             ]
         }
     ]
