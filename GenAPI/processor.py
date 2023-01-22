@@ -1,7 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import cv2
-from generator import Generator
+import cv2 as cv
 import requests
 import os
 from PIL import Image
@@ -11,25 +9,31 @@ class Processor:
     def __init__(self):
         self.url = "https://api.deepai.org/api/colorizer"
         self.RES = 2048
-        self.api_key = os.environ['api_key']
-        self.alpha = 0.3
+        # self.api_key = os.environ['api_key']
+        self.alpha = 0.35
         self.beta = 20
-        self.searchWindowSize = 20
+        self.searchWindowSize = 21
         self.kernel = np.array([[0, -1, 0],
-                           [-1, 5, -1],
-                           [0, -1, 0]])
+                                [-1, 5, -1],
+                                [0, -1, 0]])
+        self.blur_kernel = np.array([[1 / 6, 1 / 6, 1 / 6],
+                                     [1 / 6, 1 / 6, 1 / 6],
+                                     [1 / 6, 1 / 6, 1 / 6]])
 
     def __upscale(self, image):
-        return cv2.resize(image, dsize=(self.RES, self.RES), interpolation=cv2.INTER_CUBIC)
+        return cv.resize(image, dsize=(self.RES, self.RES), interpolation=cv.INTER_CUBIC)
 
     def __denoise(self, image):
-        return cv2.fastNlMeansDenoising(image, None, self.searchWindowSize)
+        return cv.fastNlMeansDenoising(image, None, self.searchWindowSize)
+
+    def __gaussian_blur(self, image):
+        return cv.filter2D(src=image, ddepth=-1, kernel=self.blur_kernel)
 
     def __sharpen(self, image):
-        return cv2.filter2D(src=image, ddepth=-1, kernel=self.kernel)
+        return cv.filter2D(src=image, ddepth=-1, kernel=self.kernel)
 
     def __lower_contrast(self, image):
-        return cv2.convertScaleAbs(image, alpha=self.alpha, beta=self.beta)
+        return cv.convertScaleAbs(image, alpha=self.alpha, beta=self.beta)
 
     def __colourise(self, image):
         temp = Image.fromarray(image)
@@ -48,26 +52,15 @@ class Processor:
                 fd.write(chunk)
 
         image = Image.open("temp/temp_out.png")
-        # os.remove("temp/temp_in.png")
-        # os.remove("temp/temp_out.png")
         return image
 
     def process(self, image):
         image = self.__upscale(image)
         image = self.__denoise(image)
         image = self.__sharpen(image)
+        image = self.__gaussian_blur(image)
         image = self.__lower_contrast(image)
         # colourise commented out for MONEY REASONS
         # image = self.__colourise(image)
 
         return image
-
-
-gen = Generator()
-img = gen.generate()
-proc = Processor()
-img = proc.process(img)
-plt.imshow(img)
-plt.show()
-
-
