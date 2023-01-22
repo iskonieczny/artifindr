@@ -3,3 +3,4 @@ chatbot
 GenAPI/*
 !GenApi/Dockerfile
 !GenApi/requirements.txt
+!GenApi/GenAPI.py
