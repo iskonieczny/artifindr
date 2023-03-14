@@ -113,7 +113,7 @@ model.add(Dropout(0.5))
 model.add(Dense(64, activation="relu"))
 model.add(Dropout(0.5))
 model.add(Dense(len(train_Y[0]), activation="softmax"))
-adam = tf.keras.optimizers.Adam(learning_rate=0.007, decay=1e-6)
+adam = tf.keras.optimizers.Adam(learning_rate=0.007)
 model.compile(loss='categorical_crossentropy',
               optimizer=adam,
               metrics=["accuracy"])
