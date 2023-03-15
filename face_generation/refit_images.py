@@ -7,23 +7,18 @@ import cv2
 PATH_SRC = "./dataset/person"
 PATH_OUT = "./dataset_refit"
 
-line_size = 7
-blur_value = 7
-total_color = 8
+line_size = 5
+blur_value = 5
+total_color = 5
 SIZE = 64
 
 def refit_image(image):
-    # image = image.convert("RGBA")
-    # if image.mode in ('RGBA', 'LA'):
-    #     background = Image.new(image.mode[:-1], image.size, (0, 0, 0))
-    #     background.paste(image, image.split()[-1])
-    #     image = background
     image = np.array(image)
-    # edges = edge_mask(image, line_size, blur_value)
+    image = cv2.resize(image, dsize=(SIZE, SIZE), interpolation=cv2.INTER_LINEAR)
+    edges = edge_mask(image, line_size, blur_value)
     image = color_quantization(image, total_color)
     blurred = cv2.bilateralFilter(image, d=7, sigmaColor=200, sigmaSpace=200)
-    # image = cv2.bitwise_and(blurred, blurred, mask=edges)
-    image = cv2.resize(image, dsize=(SIZE, SIZE), interpolation=cv2.INTER_LINEAR)
+    image = cv2.bitwise_and(blurred, blurred, mask=edges)
     image = Image.fromarray(image, "RGB")
     return image
 
