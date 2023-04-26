@@ -9,7 +9,7 @@ from IPython import display
 
 from tqdm import tqdm
 
-PATH_SRC = "./dataset_refit_grayscale"
+PATH_SRC = "./dataset_refit"
 IMG_DIM = 64
 BATCH_SIZE = 128
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
@@ -19,7 +19,8 @@ for img_name in tqdm(os.listdir(PATH_SRC)):
     path = os.path.join(PATH_SRC, img_name)
     img = Image.open(path)
     data_set.append(np.array(img))
-    if img_name.split(".")[0] == "00127":
+    print(img_name)
+    if img_name.split("(")[1].split(")")[0] == "1000":
         break
 
 print("Amount of data: ", len(data_set))
@@ -48,7 +49,7 @@ def make_generator_model():
     model.add(layers.ReLU())
 
     model.add(layers.Conv2DTranspose(1, 5, strides=2, padding='same', use_bias=False, activation='tanh'))
-    assert model.output_shape == (None, 64, 64, 1)
+    assert model.output_shape == (None, 64, 64, 3)
 
     return model
 
@@ -60,7 +61,7 @@ def make_discriminator_model():
     filters = 64
     model = tf.keras.Sequential()
     model.add(layers.Conv2D(filters, (4, 4), strides=(2, 2), padding='same',
-                            input_shape=[64, 64, 1]))
+                            input_shape=[64, 64, 3]))
     model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
@@ -99,14 +100,14 @@ def generator_loss(fake_output):
 generator_optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=0.0002, beta_1=0.5)
 discriminator_optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=0.0002, beta_1=0.5)
 
-checkpoint_dir = 'checkpoints_grayscale'
+checkpoint_dir = 'checkpoints_new'
 checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
 checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  discriminator_optimizer=discriminator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
 
-EPOCHS = 1
+EPOCHS = 100
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -137,7 +138,7 @@ def generate_and_save_images(model, epoch, test_input):
         plt.axis('off')
         plt.grid(False)
 
-    plt.savefig('./gan_grayscale_images/image_test_8_{:04d}.png'.format(epoch))
+    plt.savefig('./gan_new_model/01___{:04d}.png'.format(epoch))
 
 
 @tf.function
@@ -161,7 +162,7 @@ def train_step(images):
 
 
 ckpt_manager = tf.train.CheckpointManager(checkpoint, checkpoint_dir, max_to_keep=70)
-checkpoint.restore('checkpoints_grayscale\\ckpt-26')
+# checkpoint.restore('checkpoints_grayscale\\ckpt-26')
 
 
 def train(dataset, epochs):
