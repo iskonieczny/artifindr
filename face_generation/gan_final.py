@@ -10,7 +10,7 @@ from IPython import display
 from tqdm import tqdm
 
 PATH_SRC = "./dataset_refit"
-IMG_DIM = 64
+IMG_DIM = 128
 BATCH_SIZE = 128
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 data_set = []
@@ -19,14 +19,15 @@ for img_name in tqdm(os.listdir(PATH_SRC)):
     path = os.path.join(PATH_SRC, img_name)
     img = Image.open(path)
     data_set.append(np.array(img))
-    print(img_name)
-    if img_name.split("(")[1].split(")")[0] == "1000":
-        break
+    # print(img_name)
+    # if img_name.split("(")[1].split(")")[0] == "1000":
+    #     break
 
 print("Amount of data: ", len(data_set))
 
 data_set = np.asarray(data_set, dtype=object)
-data_set = np.reshape(data_set, (data_set.shape[0], IMG_DIM, IMG_DIM, 1)).astype('float32')
+# print(data_set.shape)
+data_set = np.reshape(data_set, (data_set.shape[0], IMG_DIM, IMG_DIM, 3)).astype('float32')
 data_set = (data_set - 127.5) / 127.5
 data_set = tf.data.Dataset.from_tensor_slices(data_set).shuffle(data_set.shape[0]).batch(BATCH_SIZE)
 
@@ -36,20 +37,24 @@ def make_generator_model():
     model.add(layers.Dense(4 * 4 * 1024, use_bias=False, input_shape=(100,)))
     model.add(layers.Reshape((4, 4, 1024)))
 
-    model.add(layers.Conv2DTranspose(512, 5, strides=2, padding='same', use_bias=False))
+    model.add(layers.Conv2DTranspose(512, 8, strides=2, padding='same', use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(256, 5, strides=2, padding='same', use_bias=False))
+    model.add(layers.Conv2DTranspose(256, 4, strides=2, padding='same', use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(128, 5, strides=2, padding='same', use_bias=False))
+    model.add(layers.Conv2DTranspose(128, 2, strides=2, padding='same', use_bias=False))
     model.add(layers.BatchNormalization())
     model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(1, 5, strides=2, padding='same', use_bias=False, activation='tanh'))
-    assert model.output_shape == (None, 64, 64, 3)
+    model.add(layers.Conv2DTranspose(64, 2, strides=2, padding='same', use_bias=False))
+    model.add(layers.BatchNormalization())
+    model.add(layers.ReLU())
+
+    model.add(layers.Conv2DTranspose(3, 1, strides=2, padding='same', use_bias=False, activation='tanh'))
+    assert model.output_shape == (None, 128, 128, 3)
 
     return model
 
@@ -61,7 +66,7 @@ def make_discriminator_model():
     filters = 64
     model = tf.keras.Sequential()
     model.add(layers.Conv2D(filters, (4, 4), strides=(2, 2), padding='same',
-                            input_shape=[64, 64, 3]))
+                            input_shape=[128, 128, 3]))
     model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
@@ -78,7 +83,7 @@ def make_discriminator_model():
     model.add(layers.BatchNormalization())
 
     model.add(layers.Flatten())
-    model.add(layers.Dense(1))
+    model.add(layers.Dense(3))
 
     return model
 
