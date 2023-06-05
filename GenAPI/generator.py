@@ -22,10 +22,6 @@ class Generator:
     def __generate_image_grayscale(self, seed):
         predictions = self.model(seed, training=False)
         image = tensor_to_image(predictions[0])
-        # plt.imshow(image, cmap="gray")
-        # plt.axis('off')
-        # plt.grid(False)
-        # plt.show()
         return np.array(image)
 
     def generate(self, seed=None):
