@@ -1,3 +1,0 @@
-hobbies, age, name, nationality, work place, education generated with chatbot (should be individual)
-add conversetion score (will result the outcome from flirting)
-fix the model

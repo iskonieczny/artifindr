@@ -1,4 +1,5 @@
 from chat import Chat
+from scrape import RedditScrape
 from flask import Flask, request
 import os
 from flask_cors import CORS
@@ -12,8 +13,9 @@ app = Flask("ChatAPI")
 CORS(app)
 
 chat = Chat()
+scrape = RedditScrape()
 
-DATABASE_HOST = 'postgres'
+DATABASE_HOST = "localhost"#'postgres'
 DATABASE_USER = "postgres"
 DATABASE_PASSWORD = "secret"
 DATABASE_NAME = "api"
@@ -40,9 +42,8 @@ def get_response1():
 
     cur.execute('INSERT INTO messages (user_id, bot_id, content) VALUES (%s, %s, %s);',
                 (user_id, bot_id, msg))
-    conn.commit()
 
-    cur.execute('SELECT character FROM bots WHERE bot_id=%s;', bot_id)
+    cur.execute('SELECT character FROM bots WHERE bot_id=%s;', (bot_id, ))
     response = cur.fetchall()[0]
     chatbot_character = response['character']
 
@@ -52,11 +53,18 @@ def get_response1():
                     (chatbot_character, bot_id))
 
     result = chat.response_to_api(chatbot_character, last_tag_used, msg)
-    new_message = result['response']
-
+    print(result)
+    try:
+        if result['tag_used'] == "None" or result['response']=='from db':
+            scraped_msg, score, tag = scrape.search(msg, chatbot_character)
+            if score > 0.5:
+                result['response'] = scraped_msg
+                result['tag_used'] = tag
+    except:
+        print('Scrape error!')
     # dodaj result do bazy
     cur.execute('INSERT INTO messages (user_id, bot_id, content, from_bot) VALUES (%s, %s, %s, true);',
-                (user_id, bot_id, new_message))
+                (user_id, bot_id, result['response']))
     conn.commit()
     cur.close()
     return result
@@ -93,5 +101,5 @@ def get_response3():
     return result
 
 
-port = int(os.environ.get('PORT', 5000))
+port = int(os.environ.get('PORT', 5100))
 app.run(host='0.0.0.0', port=port)

@@ -7,10 +7,9 @@ import json
 warnings.filterwarnings("ignore")
 
 parrot = Parrot(model_tag="prithivida/parrot_paraphraser_on_T5")
-
+print("xd")
 
 def paraphrase(input_list):
-    print(input_list)
     out_list = []
     for phrase in input_list:
         print("-" * 100)
@@ -33,16 +32,17 @@ def paraphrase(input_list):
     return out_list
 
 
-for filename in os.listdir("characters"):
-    responses = open(f'characters/{filename}').read()
-    data = json.loads(responses)
+if __name__ == "__main__":
+    for filename in os.listdir("characters"):
+        responses = open(f'characters/{filename}').read()
+        data = json.loads(responses)
 
-    for key in ['responses', 'patterns']:
-        for intent in data['intents']:
-            paraphrased_list = paraphrase(intent[key])
-            if paraphrased_list:
-                intent[key] += paraphrased_list
+        for key in ['responses', 'patterns']:
+            for intent in data['intents']:
+                paraphrased_list = paraphrase(intent[key])
+                if paraphrased_list:
+                    intent[key] += paraphrased_list
 
-    with open(f'para_{filename}', 'w') as out_file:
-        json.dump(data, out_file)
+        with open(f'paraphrase_out/para_{filename}', 'w') as out_file:
+            json.dump(data, out_file)
 

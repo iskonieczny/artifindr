@@ -1,26 +1,19 @@
 from keras.utils import text_dataset_from_directory
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers.core import Activation, Dropout, Dense
-from tensorflow.python.keras.layers import Flatten, LSTM
-from tensorflow.python.keras.layers import GlobalMaxPooling1D
-from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.layers.embeddings import Embedding
 from sklearn.model_selection import train_test_split
-from tensorflow.python.keras.layers import Input
-from tensorflow.python.keras.layers.merge import Concatenate
-from keras.layers import TextVectorization, Embedding, Input, Dropout, Conv2D, GlobalMaxPooling2D, Dense, Flatten
-from tensorflow.python.data import Dataset
+from keras.layers import TextVectorization, GlobalAveragePooling1D, Activation
+from keras.layers import Embedding, Input, Dropout, Conv1D, Dense, Flatten
+from keras import Sequential
 from tensorflow.python.data.experimental import cardinality
+from tensorflow.python.data import AUTOTUNE
+from tensorflow import expand_dims
 from nltk.stem.wordnet import WordNetLemmatizer
-import tensorflow.python as tf
-from tensorflow.python.keras.losses import SparseCategoricalCrossentropy
-from keras.models import save_model
-from tensorflow.python import layers
+import keras as tf
+from keras.losses import SparseCategoricalCrossentropy
+import matplotlib.pyplot as plt
 import os
 import json
 import string
 import nltk
-import numpy as np
 
 
 max_features = 20000
@@ -30,13 +23,6 @@ data = []
 labels = []
 
 lem = WordNetLemmatizer()
-
-def vectorize_str(text):
-    tokens = nltk.word_tokenize(text)
-    lemmatized = [lem.lemmatize(token.lower() if token not in string.punctuation else token) for token in tokens]
-
-
-
 
 for filename in os.listdir("characters"):
     responses = open(f'characters/{filename}').read()
@@ -55,27 +41,26 @@ for filename in os.listdir("characters"):
 
 
 labels_set = set(labels)
-X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.20, random_state=42)
 
-train_ds = text_dataset_from_directory(
+raw_train_ds = text_dataset_from_directory(
     "character_dataset",
-    batch_size=32,
+    batch_size=12,
     validation_split=0.2,
     subset="training",
     seed=1337,
 )
 
-val_ds = text_dataset_from_directory(
+raw_val_ds = text_dataset_from_directory(
     "character_dataset",
-    batch_size=32,
+    batch_size=12,
     validation_split=0.2,
     subset="validation",
     seed=1337,
 )
 
-val_batches = cardinality(val_ds)
-test_ds = val_ds.take((2*val_batches) // 3)
-val_ds = val_ds.skip((2*val_batches) // 3)
+val_batches = cardinality(raw_val_ds)
+raw_test_ds = raw_val_ds.take((2*val_batches) // 3)
+raw_val_ds = raw_val_ds.skip((2*val_batches) // 3)
 
 vectorize_layer = TextVectorization(
     max_tokens=max_features,
@@ -83,31 +68,57 @@ vectorize_layer = TextVectorization(
     output_sequence_length=sequence_length,
 )
 
-text_ds = train_ds.map(lambda x, y: x)
+
+text_ds = raw_train_ds.map(lambda x, y: x)
 vectorize_layer.adapt(text_ds)
+
+train_ds = raw_train_ds
+val_ds = raw_val_ds
+test_ds = raw_test_ds
+
+train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 text_input = Input(shape=(1,), dtype='string')
 x = vectorize_layer(text_input)
 x = Embedding(max_features + 1, embedding_dim)(x)
-x = Dropout(0.5)(x)
-
-"""x = Conv2D(128, 7, padding="valid", activation="relu", strides=3)(x)
-x = Conv2D(128, 7, padding="valid", activation="relu", strides=3)(x)
-x = GlobalMaxPooling2D()(x)
-
-# We add a vanilla hidden layer:
-x = Dense(128, activation="relu")(x)
-x = Dropout(0.5)(x)"""
-
-# We project onto a single unit output layer, and squash it with a sigmoid:
+x = Dropout(0.2)(x)
+x = Conv1D(64, 3, padding='same')(x)
+x = Conv1D(64, 4, padding='same')(x)
+x = Conv1D(64, 5, padding='same')(x)
 x = Flatten()(x)
-predictions = Dense(len(labels_set), activation="softmax", name="predictions")(x)
+x = Dropout(0.2)(x)
+predictions = Dense(len(labels_set), activation="sigmoid", name="predictions")(x)
 
-model = tf.keras.Model(text_input, predictions)
+model = tf.Model(text_input, predictions)
+tf.utils.plot_model(model, to_file="char_classify_model.png", show_shapes=True)
 
-# Compile the model with binary crossentropy loss and an adam optimizer.
 model.compile(loss=SparseCategoricalCrossentropy(from_logits=False), optimizer="adam", metrics=["accuracy"])
 
-model.fit(train_ds, validation_data=val_ds, epochs=3, verbose=False)
+history = model.fit(train_ds, validation_data=val_ds, epochs=15)
+model.save("char_classify_model.tf")
 
-y_prob = model.predict(["I like america"])
+model.compile(
+    loss=SparseCategoricalCrossentropy(from_logits=False), optimizer="adam", metrics=['accuracy']
+)
+
+y_prob = model.predict(["I am a chatbot made for Artifindr application", "I like heavy-metal, ha...ha....ha",
+                               "Sadly I do not have any news to share with you",
+                               "Cars are of no concern to me, I have a chauffeur."])
+print(y_prob)
+
+acc = history.history['accuracy']
+loss = history.history['loss']
+
+
+epochs = range(1, len(acc) + 1)
+
+plt.plot(epochs, acc, 'b', label='Dokładność')
+plt.plot(epochs, loss, 'r', label='Strata')
+plt.title('Dokładność i strata epok trenowania')
+plt.legend()
+
+plt.show()
+
+plt.savefig('model_epochs.png')
