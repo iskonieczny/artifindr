@@ -1,8 +1,11 @@
 db-data
 db-data copy
-chatbot/*
 GenAPI/*
 !GenApi/Dockerfile
 !GenApi/requirements.txt
 !GenApi/GenAPI.py
+chatbot/*
+!chatbot/Chat_REST/
+chatbot/Chat_REST/*
 !chatbot/Chat_REST/ChatAPI.py
+!chatbot/Chat_REST/scrape.py
