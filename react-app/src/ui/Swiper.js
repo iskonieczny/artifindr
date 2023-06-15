@@ -54,6 +54,7 @@ function Swiper({queue, id}) {
       
     })
   }
+  console.log(process.env.REACT_APP_GAN_API_ADDR+"/generate?key="+id+"&user_id="+user_id)
 
   const handleSwipe = (accepted) => {
     setNextPerson(accepted)

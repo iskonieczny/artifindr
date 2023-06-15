@@ -1,6 +1,7 @@
-db-data
-chatbot
+db-data*
+chatbot/*
 GenAPI/*
 !GenApi/Dockerfile
 !GenApi/requirements.txt
 !GenApi/GenAPI.py
+!chatbot/Chat_REST/ChatAPI.py
