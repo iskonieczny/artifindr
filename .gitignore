@@ -6,6 +6,10 @@ GenAPI/*
 !GenApi/GenAPI.py
 chatbot/*
 !chatbot/Chat_REST/
+chatbot/Model_Training/*
+!chatbot/Model_Training/
 chatbot/Chat_REST/*
 !chatbot/Chat_REST/ChatAPI.py
 !chatbot/Chat_REST/scrape.py
+!chatbot/Model_Training/char_classify_train.py
+!chatbot/Model_Training/paraphrasing.py
