@@ -64,6 +64,7 @@ def accept():
 
     if user_id not in curr_user_faces.keys():
         return {}, 400
+    print(curr_user_faces[user_id], name, gender, bio)
     
     cur.execute("""INSERT INTO bots 
                   (img_path, name, gender, bio) VALUES 

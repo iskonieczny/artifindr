@@ -89,7 +89,7 @@ const Register = () => {
               {getFormFieldTitle(field.attributes)}
             </label>
             <input
-              className="form-control cred-input align-items-center"
+              className="form-control cred-input align-items-center mb-3"
               defaultValue={field.attributes.value}
               type={field.attributes.type}
               value={values[field.attributes.name] || field.attributes.value || ''}
@@ -107,6 +107,7 @@ const Register = () => {
                 {text}
               </span>
             ))}
+            
           </>
           </div>)}
           <button type="submit" className='mt-2 p-2 btn btn-primary rounded-5 btn-lg'>Submit</button>

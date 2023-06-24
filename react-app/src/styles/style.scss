@@ -6,7 +6,8 @@ $theme-colors: (
   "danger": rgb(199, 18, 18),
   "dark": #3a3749,
   "light": #b4b4b4,
-  "semi-light": #a7a7a7
+  "semi-light": #a7a7a7,
+  "semi-light-chat": #ceb4bc
 );
 
 $form-check-input-checked-bg-color: #30691d;
@@ -288,7 +289,7 @@ svg path {
 }
 
 .chat-list {
-  width: 260px;
+  width: 100%;
   overflow: -webkit-scrollbar; 
   overflow-y: scroll;
   * {
@@ -298,6 +299,25 @@ svg path {
     overflow:hidden;
     white-space:nowrap; 
     text-overflow:ellipsis; 
+  }
+}
+
+.chat-window {
+  position: absolute;
+  left: -99999px; //domyślny stan, przeniesienie widoku poza viewport
+  visibility:hidden;
+  display:none;
+}
+
+@media (min-width: 560px) { //wyświetlanie obu widoków na szerszych ekranach
+  .chat-list {
+    width: 280px;
+  }
+  .chat-window {
+    left: 0px;
+    display: flex;
+    position: relative;
+    visibility: visible;
   }
 }
 
