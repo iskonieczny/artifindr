@@ -9,8 +9,8 @@ from IPython import display
 
 from tqdm import tqdm
 
-PATH_SRC = "./dataset_refit_grayscale"
-IMG_DIM = 64
+PATH_SRC = "./dataset_refit"
+IMG_DIM = 128
 BATCH_SIZE = 128
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=True)
 data_set = []
@@ -19,36 +19,54 @@ for img_name in tqdm(os.listdir(PATH_SRC)):
     path = os.path.join(PATH_SRC, img_name)
     img = Image.open(path)
     data_set.append(np.array(img))
-    if img_name.split(".")[0] == "00127":
-        break
+    # print(img_name)
+    # if img_name.split("(")[1].split(")")[0] == "1000":
+    #     break
 
 print("Amount of data: ", len(data_set))
 
 data_set = np.asarray(data_set, dtype=object)
-data_set = np.reshape(data_set, (data_set.shape[0], IMG_DIM, IMG_DIM, 1)).astype('float32')
+# print(data_set.shape)
+data_set = np.reshape(data_set, (data_set.shape[0], IMG_DIM, IMG_DIM, 3)).astype('float32')
 data_set = (data_set - 127.5) / 127.5
 data_set = tf.data.Dataset.from_tensor_slices(data_set).shuffle(data_set.shape[0]).batch(BATCH_SIZE)
 
 
 def make_generator_model():
+    filters = 128
     model = tf.keras.Sequential()
-    model.add(layers.Dense(4 * 4 * 1024, use_bias=False, input_shape=(100,)))
-    model.add(layers.Reshape((4, 4, 1024)))
 
-    model.add(layers.Conv2DTranspose(512, 5, strides=2, padding='same', use_bias=False))
+    model.add(layers.Dense(4 * 4 * filters * 8, use_bias=False, input_shape=(100,)))
+    model.add(layers.Reshape((4, 4, filters * 8)))
+
+    model.add(
+        layers.Conv2DTranspose(filters * 16, 4, strides=2, padding='same', use_bias=False, data_format='channels_last'))
     model.add(layers.BatchNormalization())
     model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(256, 5, strides=2, padding='same', use_bias=False))
+    model.add(
+        layers.Conv2DTranspose(filters * 8, 4, strides=2, padding='same', use_bias=False, data_format='channels_last'))
     model.add(layers.BatchNormalization())
     model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(128, 5, strides=2, padding='same', use_bias=False))
+    model.add(
+        layers.Conv2DTranspose(filters * 4, 4, strides=2, padding='same', use_bias=False, data_format='channels_last'))
     model.add(layers.BatchNormalization())
     model.add(layers.ReLU())
 
-    model.add(layers.Conv2DTranspose(1, 5, strides=2, padding='same', use_bias=False, activation='tanh'))
-    assert model.output_shape == (None, 64, 64, 1)
+    model.add(
+        layers.Conv2DTranspose(filters * 2, 4, strides=2, padding='same', use_bias=False, data_format='channels_last'))
+    model.add(layers.BatchNormalization())
+    model.add(layers.ReLU())
+
+    model.add(
+        layers.Conv2DTranspose(filters, 4, strides=2, padding='same', use_bias=False, data_format='channels_last'))
+    model.add(layers.BatchNormalization())
+    model.add(layers.ReLU())
+
+    model.add(
+        layers.Conv2DTranspose(3, 1, padding='same', use_bias=False, activation='tanh', data_format='channels_last'))
+    assert model.output_shape == (None, 128, 128, 3)
 
     return model
 
@@ -57,22 +75,22 @@ generator = make_generator_model()
 
 
 def make_discriminator_model():
-    filters = 64
+    filters = 128
     model = tf.keras.Sequential()
     model.add(layers.Conv2D(filters, (4, 4), strides=(2, 2), padding='same',
-                            input_shape=[64, 64, 1]))
+                            input_shape=[128, 128, 3], data_format='channels_last'))
     model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
-    model.add(layers.Conv2D(filters * 2, (4, 4), strides=(2, 2), padding='same'))
+    model.add(layers.Conv2D(filters * 2, (4, 4), strides=(2, 2), padding='same', data_format='channels_last'))
     model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
-    model.add(layers.Conv2D(filters * 4, (4, 4), strides=(2, 2), padding='same'))
+    model.add(layers.Conv2D(filters * 4, (4, 4), strides=(2, 2), padding='same', data_format='channels_last'))
     model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
-    model.add(layers.Conv2D(filters * 8, (4, 4), strides=(2, 2), padding='same'))
+    model.add(layers.Conv2D(filters * 8, (4, 4), strides=(2, 2), padding='same', data_format='channels_last'))
     model.add(layers.LeakyReLU(alpha=0.2))
     model.add(layers.BatchNormalization())
 
@@ -99,14 +117,14 @@ def generator_loss(fake_output):
 generator_optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=0.0002, beta_1=0.5)
 discriminator_optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=0.0002, beta_1=0.5)
 
-checkpoint_dir = 'checkpoints_grayscale'
+checkpoint_dir = 'checkpoints_new'
 checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
 checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  discriminator_optimizer=discriminator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
 
-EPOCHS = 1
+EPOCHS = 300
 noise_dim = 100
 num_examples_to_generate = 16
 
@@ -116,12 +134,12 @@ seed = tf.random.normal([num_examples_to_generate, noise_dim])
 def tensor_to_image(tensor):
     tensor = tensor * 255
     tensor = np.array(tensor, dtype=np.uint8)
-    tensor = np.squeeze(tensor, 2)
+    # tensor = np.squeeze(tensor, 2)
     if np.ndim(tensor) > 3:
         assert tensor.shape[0] == 1
 
     image = Image.fromarray(tensor)
-    image_to_return = image.convert('L')
+    image_to_return = image.convert('RGB')
     return image_to_return
 
 
@@ -133,11 +151,11 @@ def generate_and_save_images(model, epoch, test_input):
     for i in range(predictions.shape[0]):
         plt.subplot(4, 4, i + 1)
         img_to_show = tensor_to_image(predictions[i])
-        plt.imshow(img_to_show, cmap="gray")
+        plt.imshow(img_to_show)
         plt.axis('off')
         plt.grid(False)
 
-    plt.savefig('./gan_grayscale_images/image_test_8_{:04d}.png'.format(epoch))
+    plt.savefig('./gan_new_model/03___{:04d}.png'.format(epoch))
 
 
 @tf.function
@@ -161,7 +179,9 @@ def train_step(images):
 
 
 ckpt_manager = tf.train.CheckpointManager(checkpoint, checkpoint_dir, max_to_keep=70)
-checkpoint.restore('checkpoints_grayscale\\ckpt-26')
+
+
+# checkpoint.restore('checkpoints_grayscale\\ckpt-26')
 
 
 def train(dataset, epochs):

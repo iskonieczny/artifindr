@@ -1,15 +1,19 @@
+import PIL.Image
 import numpy as np
 import cv2 as cv
 import requests
 import os
 from PIL import Image
+from matplotlib import pyplot as plt
+
+from generator import Generator
 
 
 class Processor:
     def __init__(self):
-        #self.url = "https://api.deepai.org/api/colorizer"
+        # self.url = "https://api.deepai.org/api/colorizer"
         self.RES = 2048
-        #self.api_key = os.environ['api_key']
+        # self.api_key = os.environ['api_key']
         self.alpha = 0.35
         self.beta = 20
         self.searchWindowSize = 21
@@ -60,7 +64,17 @@ class Processor:
         image = self.__sharpen(image)
         image = self.__gaussian_blur(image)
         image = self.__lower_contrast(image)
-        # colourise commented out for MONEY REASONS
-        #image = self.__colourise(image)
+        # image = self.__colourise(image)
 
         return image
+
+
+# op = open('C:\\Users\\fcb-i\\Downloads\\example_grayscale_old.png', "r")
+proc = Processor()
+gen = Generator()
+img = gen.generate()
+print(img.shape)
+plt.imshow(img, cmap='gray')
+plt.show()
+plt.imshow(proc.process(img),cmap='gray')
+plt.show()
